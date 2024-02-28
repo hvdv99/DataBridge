@@ -1,0 +1,2 @@
+# Insert API keys below
+API_KEY_EXAMPLE = "INSERT KEY HERE"
