@@ -35,3 +35,11 @@ latest version of the branch you are working on.
 mistakes while pushing.
 - `git commit -m "Your message"` - commits the files in the staging area to the branch you are working on.
 - `git push` - pushes staged files to the branch you are working on.
+
+#### Merging branches
+- once the feature branch is complete, you first have to make sure it is up to date on github
+- then you can create a pull request on the github website
+- You select the product owner and another developer to review your code
+- The reviewers will check your code and give you feedback
+- You now have to make the changes the reviewers asked for
+- After the reviewers are satisfied, the product owner will merge the branch with the main branch
