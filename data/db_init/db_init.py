@@ -54,8 +54,7 @@ class ColloPackages(Base):
     da_type_adres_gea = Column(String)          
     da_waarnemingsequence = Column(String)
 
-
-engine = create_engine('sqlite:///PostNL_SQLite.db')
+engine = create_engine('sqlite:///../PostNL_SQLite.db')
 Base.metadata.create_all(engine)
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
@@ -86,17 +85,15 @@ for index, row in df_delivery_preference.iterrows():
                                 datecreated=datecreated)
     session.add(new_delivery_preference)
 
-
 df_delivery_facts = pd.read_csv(os.path.join('..', 'PostNL_account_delivery_facts_anonymized.csv'))
 
 for index, row in df_delivery_facts.iterrows():
     new_delivery_facts = DeliveryFacts(
-                                account_id_hashed=row['account_id_hashed'],
-                                month_id=row['month_id'],
-                                number_of_parcels=row['number_of_parcels'],
-                                parcels_home_1st=row['parcels_home_1st'])
+                            account_id_hashed=row['account_id_hashed'],
+                            month_id=row['month_id'],
+                            number_of_parcels=row['number_of_parcels'],
+                            parcels_home_1st=row['parcels_home_1st'])
     session.add(new_delivery_facts)
-
 
 df_collo_packages = pd.read_csv(os.path.join('..', 'PostNL_collo_packages_anonymized.csv'))
 
@@ -137,9 +134,6 @@ for index, row in df_collo_packages.iterrows():
                             da_waarnemingsequence=row['da_waarnemingsequence'])
     session.add(new_collo_packages)
 
-
 session.commit()
-
-os.rename('PostNL_SQLite.db', os.path.join('..', 'PostNL_SQLite.db'))
 
 print("Data has been inserted into the PostNL database")
