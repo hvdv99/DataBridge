@@ -162,3 +162,5 @@ cython_debug/
 .DS_Store
 config/personal_constants.py
 
+data/*.csv
+data/*.db
