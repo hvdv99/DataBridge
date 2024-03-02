@@ -1,12 +1,9 @@
-import pandas as pd
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Time, Date
 from datetime import datetime, date, time
 import os
-
-DATA_DIR = 'data'
+import pandas as pd
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Time, Date, create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
