@@ -51,7 +51,7 @@ class ColloPackages(Base):
     da_type_adres_gea = Column(String)          
     da_waarnemingsequence = Column(String)
 
-engine = create_engine('sqlite:///../PostNL_SQLite.db')
+engine = create_engine('sqlite:///../PostNL_SQLite.sqlite')
 Base.metadata.create_all(engine)
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
