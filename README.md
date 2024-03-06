@@ -63,3 +63,4 @@ assure this, run in the CLI: `git pull`
 - The reviewers will check your code and give you feedback by adding comments to your code.
 - You can now resolve the comments by making new commits to the branch.
 - After the reviewers are satisfied, the Product Owner will merge the branch with the main branch.
+- 
