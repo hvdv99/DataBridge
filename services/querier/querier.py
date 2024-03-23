@@ -43,7 +43,7 @@ class DBQuerier:
     def train_model_on_question_sql_pairs(self):
         pass
 
-    def train_model(self):
+    def train_model(self, documentation: bool = True, sql: bool = True, ddl: bool = True, ):
         """
         Method that will train the model on all types of training data
         :return:
