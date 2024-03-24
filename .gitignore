@@ -165,5 +165,3 @@ config/personal_constants.py
 data/*.csv
 data/*.db
 data/*.sqlite
-
-test-app/
