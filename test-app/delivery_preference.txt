@@ -2,7 +2,7 @@ De 'delivery_preference' tabel bevat informatie over wanneer een bezorg order is
 
 account_id_hashed: Een unieke waarde voor elke klant/account die geregistreerd is in het systeem. In dit tabel bevat deze kolom geen duplicaten, waardoor deze kolom de primaire sleutel van deze tabel is.
 
-deliverypreference: Bevat informatie over de voorkeur van de klant voor het ontvangen van pakketten. Dit kan het volgende zijn: Originele afleverlocatie (OriginalDeliveryLocation), Pakketkluis (ParcelLocker), Openbare pakketkluis (PublicParcelLocker), Winkellocatie (RetailLocation), Geen (None)
+deliverypreference: Bevat informatie over de voorkeur van de klant voor het ontvangen van pakketten. Dit kan het volgende zijn: Originele afleverlocatie (OriginalDeliveryLocation), Pakketkluis (ParcelLocker), Openbare pakketkluis (PublicParcelLocker), Winkellocatie (RetailLocation), Geen (None).
 
 datelastupdated: Bevat informatie over wanneer de aflevervoorkeur het laatst is bijgewerkt. De informatie is in het volgende formaat: 29/11/2023 15:51:53
 

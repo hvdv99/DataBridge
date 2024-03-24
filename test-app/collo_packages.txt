@@ -1,0 +1,51 @@
+De 'collo_packages' tabel bevat informatie over een besteld pakket. De data bevat informatie over de jaren 2023 en 2024. Alle data en tijdstempels zijn opgeslagen in het volgende formaat: 11/08/2023 en 19:22:02.
+
+account_id_hashed: Identificator voor een klant/account. De waarden in deze kolom zijn niet uniek en bevatten veel duplicaten. Dient als vreemde sleutel, gerelateerd aan de primaire sleutel van de 'delivery_preference'.
+
+dn_barcode: Bevat de identificatiewaarden voor een specifiek pakket. Hoewel de meeste waarden uniek zijn, zijn er enkele duplicaten.
+
+da_datum_voormelding: Bevat de datum waarop de bestelling is gemaakt.
+
+da_datum_acceptatie: Bevat de datum waarop het pakket voor het eerst door PostNL is ontvangen.
+
+da_tijd_acceptatie:	Bevat een tijdstempel wanneer een pakket voor het eerst door PostNL is ontvangen.
+
+sa_dag_sortering1: De kolom sa_dag_sortering1 bevat de datum waarop het sorteercentrumproces is gestart.
+
+sa_datum_sortering1: Het sorteercentrumproces kan doorgaan na middernacht. Als dit het geval is, zijn de datumwaarden in de kolom sa_datum_sortering1 een dag later.
+
+sa_tijd_sortering1: Bevat een tijdstempel wanneer een pakket in een sorteercentrum is gesorteerd.
+
+sa_datum_distributiecollectie: Bevat een datum wanneer het pakket in een distributiecentrum is aangekomen.
+
+sa_tijd_distributiecollectie: Bevat een tijdstempel wanneer het pakket in een distributiecentrum is aangekomen.
+
+da_datum_herroutering_voor_up1:	Bevat een datum wanneer een pakket is omgeleid, omdat het niet bij de eerste poging kon worden afgeleverd.
+
+da_tijd_herroutering_voor_up1: Bevat een tijdstempel wanneer een pakket is omgeleid, omdat het niet bij de eerste poging kon worden afgeleverd.
+
+da_datum_eindstatus: Bevat een datum wanneer een pakket door de klant is ontvangen.
+
+da_tijd_eindstatus:	Bevat een tijdstempel wanneer een pakket door de klant is ontvangen.
+
+ma_gewicht:	Bevat het gewicht van een pakket als geheel getal.
+
+ma_breedte:	Bevat de breedte van een pakket als geheel getal.
+
+ma_lengte: Bevat de lengte van een pakket als geheel getal.
+
+ma_hoogte: Bevat de hoogte van een pakket als geheel getal.
+
+ma_volume: Bevat het volume van een pakket als geheel getal.
+
+PC4_gea: Bevat de postcode van de klant als geheel getal.
+
+da_landcode_gea: Bevat de landcode van de klant. De gegevens bevatten alleen informatie over Nederland, opgeslagen als NL.
+
+da_resultaatgroepcode: Bevat de uiteindelijke status van de levering. Mogelijke opties zijn: 01-Afgeleverd, 02-Gecollecteerd, 03-In Process, 04-Retour, 06-Voorgemeld.
+
+da_resultaatcode: Bevat de uiteindelijke status van het pakket. Mogelijke opties zijn: 01-Beschadigd, 01-Gecollecteerd bij eerste poging, 01-Uitgereikt bij eerste uitreikpoging, 01-Voormelding, 02-Geweigerd, 02-Manco, 02-Sortering, 02-Uitgereikt bij tweede uitreikpoging, 03-Definitief Manco, 03-Onbestelbaar, 03-Uitgereikt bij derde uitreikpoging, 04-Distributie, 04-Gecollecteerd bij onduidelijke poging, 04-Niet afgehaald AK, 04-Uitgereikt via afhaalkantoor, 05-Uitgereikt bij onduidelijke uitreikpoging, 06-Op afhaalkantoor, 08-Onbepaald, 11-Op verzoek Customer Service.
+
+da_type_adres_gea: Bevat informatie over of de bestelling privé is of anders. Mogelijke opties zijn: Particulier, Gemengd.
+
+da_waarnemingsequence: Het proces pad van een pakket van begin tot eind.
