@@ -1,4 +1,4 @@
-De 'delivery_preference' tabel bevat informatie over wanneer een bezorg order is gemaakt en hoe de klant zijn pakket bij voorkeur geleverd krijgt.
+De 'delivery_preference' tabel bevat informatie over hoe de klant zijn pakket bij voorkeur geleverd krijgt. Wanneer de kolom 'deliverypreference' leeg is, dan heeft de klant zijn voorkeuren niet doorgegeven.
 
 account_id_hashed: Een unieke waarde voor elke klant/account die geregistreerd is in het systeem. In dit tabel bevat deze kolom geen duplicaten, waardoor deze kolom de primaire sleutel van deze tabel is.
 
