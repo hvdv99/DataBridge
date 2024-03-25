@@ -1,8 +1,8 @@
-De 'collo_packages' tabel bevat informatie over een besteld pakket. De data bevat informatie over de jaren 2023 en 2024. Alle data en tijdstempels zijn opgeslagen in het volgende formaat: 11/08/2023 en 19:22:02.
+De 'collo_packages' tabel bevat informatie over een besteld pakket. De data bevat informatie over de jaren 2023 en 2024. Alle data en tijdstempels zijn opgeslagen in het volgende formaat: 11/08/2023 en 19:22:02. Wanneer een een datumkolom leeg is (NULL) bevat het de datum: 9999-03-03 en de tijdstempel zal dan leeg zijn. Als dit het geval is, dan heeft de processtap die de kolom vertegenwoordigd nog niet plaatsgevonden.
 
-account_id_hashed: Identificator voor een klant/account. De waarden in deze kolom zijn niet uniek en bevatten veel duplicaten. Dient als vreemde sleutel, gerelateerd aan de primaire sleutel van de 'delivery_preference'.
+account_id_hashed: Identificator voor de klant/account die aan wie het pakket wordt geleverd. De waarden in deze kolom zijn niet uniek voor deze tabel en bevatten veel duplicaten. Dient als vreemde sleutel, gerelateerd aan de primaire sleutel van de 'delivery_preference'.
 
-dn_barcode: Bevat de identificatiewaarden voor een specifiek pakket. Hoewel de meeste waarden uniek zijn, zijn er enkele duplicaten.
+dn_barcode: Bevat de identificatiewaarden voor elk specifiek pakket. Hoewel de meeste waarden uniek zijn, zijn er enkele duplicaten.
 
 da_datum_voormelding: Bevat de datum waarop de bestelling is gemaakt.
 
@@ -38,7 +38,7 @@ ma_hoogte: Bevat de hoogte van een pakket als geheel getal.
 
 ma_volume: Bevat het volume van een pakket als geheel getal.
 
-PC4_gea: Bevat de postcode van de klant als geheel getal.
+PC4_gea: Bevat de eerste vier cijfers van de postcode van een klant. In Nederland bestaat een postcode uit vier cijfers die worden opgevolgd door twee letters. In deze kolom zijn alleen de eerste 4 vermeld.
 
 da_landcode_gea: Bevat de landcode van de klant. De gegevens bevatten alleen informatie over Nederland, opgeslagen als NL.
 
@@ -46,6 +46,6 @@ da_resultaatgroepcode: Bevat de uiteindelijke status van de levering. Mogelijke 
 
 da_resultaatcode: Bevat de uiteindelijke status van het pakket. Mogelijke opties zijn: 01-Beschadigd, 01-Gecollecteerd bij eerste poging, 01-Uitgereikt bij eerste uitreikpoging, 01-Voormelding, 02-Geweigerd, 02-Manco, 02-Sortering, 02-Uitgereikt bij tweede uitreikpoging, 03-Definitief Manco, 03-Onbestelbaar, 03-Uitgereikt bij derde uitreikpoging, 04-Distributie, 04-Gecollecteerd bij onduidelijke poging, 04-Niet afgehaald AK, 04-Uitgereikt via afhaalkantoor, 05-Uitgereikt bij onduidelijke uitreikpoging, 06-Op afhaalkantoor, 08-Onbepaald, 11-Op verzoek Customer Service.
 
-da_type_adres_gea: Bevat informatie over of de bestelling privé is of anders. Mogelijke opties zijn: Particulier, Gemengd.
+da_type_adres_gea: Bevat informatie over of het adres privé, particulier of gemengd is.
 
-da_waarnemingsequence: Het proces pad van een pakket van begin tot eind.
+da_waarnemingsequence: Het proces pad van een pakket van begin tot eind. Bevat een aantal interne codes die elk een status voorstellen in process.
