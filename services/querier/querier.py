@@ -10,14 +10,15 @@ from services.config import constants as c
 
 
 class DbQuerier:
+
     logging.basicConfig(stream=sys.stdout, level=logging.INFO)  # sys.stdout = logging messages to console
-    # level = general info messages.
+    # level = general info messages
 
     def __init__(self, sample_db_loc: str):
         """
-        This function is used to initialize the class and give it its basic variables
+        This function is used to initialize the class and give it its basic variables.
         :param sample_db_loc: the location of where your database is stored. The database can be created if you run
-        Berkays db_init.py script.
+        db_init.py script.
         """
         self.vanna = VannaDefault(api_key=c.VANNA_API_KEY, model=c.VANNA_MODEL_NAME)  # using the existing Vanna class
         self.vanna.connect_to_sqlite(sample_db_loc)  # connecting to the db
@@ -27,17 +28,18 @@ class DbQuerier:
 
     def remove_all_training_data(self):
         """
-        Method that removes all training data from the model
+        Method that removes all training data from the model.
         :return: None
         """
         for i in range(len(self.training_data)):
             self.vanna.remove_training_data(id=self.training_data['id'].iloc[i])
 
-        if len(self.training_data) == 0:
-            logging.info("Training data removed")
-
         # setting the class training data to empty df
         self.training_data = pd.DataFrame(columns=self.training_data.columns)
+
+        # testing if it worked
+        if len(self.vanna.get_training_data()) == 0:
+            logging.info("Training data removed")
 
     def train_model_on_ddl(self):
         """
@@ -49,11 +51,14 @@ class DbQuerier:
         df_ddl = self.vanna.run_sql("select * from sqlite_master where type = 'table' order by name;")
         for ddl in df_ddl['sql'].to_list():
             self.vanna.train(ddl=ddl)
+
         logging.info('trained model on ddl')
 
     def train_model_on_sql(self):
         """
         Trains the vanna remote context model on the query files listed in training-data/train_on_sql-queries
+        Important: Vanna actually requires an associated question to a SQL query. This function does not require that,
+        Vanna automatically generates an associating question to a sql query using a LLM
         :return: None
         """
         sql_query_file_path = os.path.join('.', 'services', 'querier', 'training-data', 'sql-queries')
@@ -79,8 +84,8 @@ class DbQuerier:
 
     def train_model_on_question_sql_pairs(self):
         """
-        Function to train the model on questions and resulting sql pairs.
-        :return:
+        Function to train the model on questions and sql pairs.
+        :return: None
         """
         question_sql_pairs_path = os.path.join('.', 'services', 'querier', 'training-data', 'question-sql-pairs',
                                                'question-sql-pairs.json')
@@ -90,7 +95,8 @@ class DbQuerier:
 
                 for question, sql in question_sql_pairs_file.items():
                     self.vanna.train(question=question, sql=sql)
-                logging.info("Trained on question-sql pairs.")
+
+            logging.info("Trained on question-sql pairs.")
 
     def train_model(self, train_on_documentation: bool = True,
                     train_on_sql: bool = True,
@@ -112,7 +118,7 @@ class DbQuerier:
         if train_on_question_sql_pairs:
             self.train_model_on_question_sql_pairs()
 
-        self.training_data = self.vanna.get_training_data()
+        self.training_data = self.vanna.get_training_data()  # updating the classes training data
 
         logging.info('training model on all types of data finished')
 
@@ -128,6 +134,6 @@ class DbQuerier:
         """
         Function that generates a sql query based on a question.
         :param question:
-        :return:
+        :return: a string with the generated SQL code
         """
         return self.vanna.generate_sql(question)
