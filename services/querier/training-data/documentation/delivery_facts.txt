@@ -1,9 +1,9 @@
 De 'delivery_facts' tabel bevat geaggregeerde informatie over het aantal pakketen dat elke klant ooit heeft ontvangen.
 
-account_id_hashed: Dit is een waarde om een account/klant te identificeren. In deze tabel zijn de waarden in deze kolom niet uniek en zijn er veel duplicaten. Deze kolom is een vreemde sleutel gebaseerd op de primaire sleutel van de 'delivery_preference' tabel.
+account_id_hashed: Deze kolom bevat een unieke identificatiecode voor elk klantaccount. De waarden in deze kolom zijn niet uniek binnen deze tabel, aangezien er meerdere records kunnen zijn voor dezelfde klant. Deze kolom dient als vreemde sleutel die verwijst naar de primaire sleutel in de 'delivery_preference' tabel.
 
-month_id: Bevat informatie over de maand waarin een of meer pakketten zijn geleverd. De informatie wordt opgeslagen in het volgende formaat: 202312, dus december 2023.
+month_id: Dit veld bevat de maand en het jaar waarin één of meerdere pakketten aan de klant zijn geleverd, opgeslagen in het formaat 'yyyymm'. Bijvoorbeeld, '202312' staat voor december 2023.
 
-number_of_parcels: Bevat het aantal pakketten dat is geleverd aan een klant.
+number_of_parcels: Deze kolom geeft het totale aantal pakketten aan dat aan de klant is geleverd. Het omvat alle pakketten ongeacht de leveringsmethode of het aantal pogingen.
 
-parcels_home_1st: Aantal pakketten dat bij de eerste bezorgpoging is afgeleverd. Dit sluit pakketten bij afhaalpunten of tweede bezorgpogingen thuis uit.
+parcels_home_1st: Dit veld geeft het aantal pakketten aan dat succesvol bij de eerste bezorgpoging aan huis is afgeleverd. Het sluit pakketten uit die zijn afgehaald bij afhaalpunten of die bij latere bezorgpogingen zijn afgeleverd.
