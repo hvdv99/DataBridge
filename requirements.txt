@@ -2,3 +2,5 @@ sqlalchemy
 pandas
 flask
 vanna
+seaborn
+matplotlib
