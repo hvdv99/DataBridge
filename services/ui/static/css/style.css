@@ -5,11 +5,32 @@ body{
     padding: 0;
 }
 header{
-    background-color: #333;
-    color: #fff;
+    background-color: #ffffff;
+    color: #2f3284;
     padding: 10px 10px;
     text-align: center;
 }
+#header_div{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 25px;
+    text-align: right;
+    background: #ffffff;
+    color: #2f3284;
+}
+#postnl_logo{
+    width: 70px;
+    height: 70px;
+    margin: 10px 0;
+}
+#title_UI{
+    width: 90%;
+    margin: 10px 0;
+    text-align: center;
+    color: #2f3284;
+}
+
+
 /* the class for the div that contains the form for the session */
 #question_div{
     background-color: whitesmoke;
@@ -141,3 +162,4 @@ table th, table td {
     font-size:40px;
     cursor: pointer;
 }
+

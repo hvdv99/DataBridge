@@ -162,3 +162,4 @@ class DbQuerier:
                     table_description = "Retrieved from table: " + table
                     column_descriptions_dict[table_description] = value["table"]
         return column_descriptions_dict
+

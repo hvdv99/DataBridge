@@ -30,18 +30,19 @@
 </div>
 
 <div id="bottem_div_send_retry_buttons">
-    <form action="" method="POST">
-        <input type="hidden" name="session_subject" value="{{subject}}">
-        <input type="hidden" name="session_email" value="{{email}}">
-        <input type="hidden" name="session_question" value="{{question}}">
+    <form action="/" method="GET">
         <button type="submit" value="Reset" class="bottom_buttons">Retry</button>
     </form>
-    <form action="/send_email" method="POST">
+    <h1><span id="submissionMessage"></span></h1>
+    <form action="/vanna_table_view/request_data" method="POST" id="requestDataForm">
         <input type="hidden" name="session_subject" value="{{subject}}">
         <input type="hidden" name="session_email" value="{{email}}">
         <input type="hidden" name="session_question" value="{{question}}">
-        <button type="submit" value="Request data" class="bottom_buttons">Request data</button>
+        <input type="hidden" name="session_sql" value="{{sql_code}}">
+        <input type="hidden" name="column_description_dict" value="{{column_description_dict}}">
+        <button type="submit" value="Request data" class="bottom_buttons" id="requestDataButton">Request data</button>
     </form>
 
 </div>
+<script src="{{ url_for('static', filename='js/script_request_data.js') }}"></script>
 {% endblock content %}

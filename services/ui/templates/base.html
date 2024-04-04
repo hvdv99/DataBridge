@@ -7,7 +7,10 @@
 </head>
 
 <header>
-    <h1>PostNL Database Requestor</h1>
+    <div id="header_div">
+        <img src="{{ url_for('static', filename='images/postnl-logo.png') }}" alt="PostNL logo" id="postnl_logo">
+    <label id = "title_UI"><h1>PostNL Database Requestor</h1></label>
+    </div>
     {% block header %}  {% endblock %}
 </header>
 <body>
