@@ -14,10 +14,34 @@
                 {{ table|safe }}
         {% endfor %}
     </div>
+
 <div id="table_descriptions_div">
+    {% block table_descriptions %}
+
+    <div id="tableButtonContainer"></div>
+    <div id="columnButtonContainer"></div>
+
     look at me
     // TODO: make a class that takes the output of vanna and parses it correctly for usage in the UI
 
+    {% endblock %}
+
 </div>
+</div>
+
+<div id="bottem_div_send_retry_buttons">
+    <form action="" method="POST">
+        <input type="hidden" name="session_subject" value="{{subject}}">
+        <input type="hidden" name="session_email" value="{{email}}">
+        <input type="hidden" name="session_question" value="{{question}}">
+        <button type="submit" value="Reset" class="bottom_buttons">Retry</button>
+    </form>
+    <form action="/send_email" method="POST">
+        <input type="hidden" name="session_subject" value="{{subject}}">
+        <input type="hidden" name="session_email" value="{{email}}">
+        <input type="hidden" name="session_question" value="{{question}}">
+        <button type="submit" value="Request data" class="bottom_buttons">Request data</button>
+    </form>
+
 </div>
 {% endblock content %}

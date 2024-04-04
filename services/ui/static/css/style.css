@@ -88,6 +88,14 @@ table th, table td {
 
 }
 
+
+#bottem_div_send_retry_buttons{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 10px 25px;
+}
+
 #result_table_div {
     width: 50%;
     margin: 10px 0;
@@ -98,4 +106,38 @@ table th, table td {
     width: 50%;
     margin: 10px 0;
     background: wheat;
+}
+
+.button {
+    margin: 5px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+#tableButtonContainer {
+    background: burlywood;
+    border: 1px solid #ccc;
+    padding: 2px;
+    border-width: 5px;
+}
+
+#columnButtonContainer > button {
+    margin: 3px;
+    padding: 2px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+
+}
+
+
+.bottom_buttons{
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 2em;
+    font-size:40px;
+    cursor: pointer;
 }

@@ -43,13 +43,15 @@ def vanna_table_view():
         question = request.form['session_question']
         email = request.form['session_email']
         subject = request.form['session_subject']
-        #sql_code = dbquery.generate_sql(question)
-        sql_code = "SELECT month_id, SUM(parcels_home_1st) AS total_first_attempts FROM delivery_facts WHERE month_id LIKE '2023%' GROUP BY month_id ORDER BY total_first_attempts DESC LIMIT 10"
+        sql_code = dbquery.generate_sql(question)
+        #sql_code = "SELECT month_id, SUM(parcels_home_1st) AS total_first_attempts FROM delivery_facts WHERE month_id LIKE '2023%' GROUP BY month_id ORDER BY total_first_attempts DESC LIMIT 10"
         print("sql_code: ", sql_code)
 
         df = dbquery.generate_sample_data(sql_query=sql_code)
+        column_description_dict = dbquery.get_descriptions_for_given_columns(columns=df.columns.values)
 
-        return render_template('vanna_table_view.html', tables=[df.to_html(classes='data')], titles=df.columns.values, sql_code = sql_code, question = question, email = email, subject = subject)
+
+        return render_template('vanna_column_description.html', tables=[df.to_html(classes='data')], titles=df.columns.values, sql_code = sql_code, question = question, email = email, subject = subject, column_description_dict = column_description_dict)
     else:
         sql_code = "SELECT month_id, SUM(parcels_home_1st) AS total_first_attempts FROM delivery_facts WHERE month_id LIKE '2023%' GROUP BY month_id ORDER BY total_first_attempts DESC LIMIT 10"
         print("sql_code: ", sql_code)

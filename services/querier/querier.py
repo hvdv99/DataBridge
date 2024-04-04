@@ -137,3 +137,28 @@ class DbQuerier:
         :return: a string with the generated SQL code
         """
         return self.vanna.generate_sql(question)
+
+    def get_column_description_dict(self):
+        """
+        Function that returns a dictionary with column descriptions which is in the documentation folder
+        :return: a dictionary with column descriptions
+        """
+        with open(os.path.join(os.path.dirname(__file__), "training-data", "documentation", "tables_column_documentation.json"), "r") as f:
+            table_column_description_dict = json.load(f)
+        return table_column_description_dict
+
+    def get_descriptions_for_given_columns(self, columns):
+        """
+        Function that returns a dictionary with column descriptions for the given columns
+        :param columns: a list of column names
+        :return: a dictionary with column descriptions
+        """
+        table_column_description_dict = self.get_column_description_dict()
+        column_descriptions_dict = {}
+        for table, value in table_column_description_dict.items():
+            for column, description in value.items():
+                if column in columns:
+                    column_descriptions_dict[column] = description
+                    table_description = "Retrieved from table: " + table
+                    column_descriptions_dict[table_description] = value["table"]
+        return column_descriptions_dict
