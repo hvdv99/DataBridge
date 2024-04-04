@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %} Table view {% endblock %}
+{% block header %} <h2>Table view    | Subject:   {{subject}}     </h2> {% endblock %}
+{% block content %}
+
+
+<div id="table_with_description_div">
+
+    <div id="result_table_div">
+        <h3>Table descriptions</h3>
+
+        {% for table in tables %}
+                {{titles[loop.index]}}
+                {{ table|safe }}
+        {% endfor %}
+    </div>
+<div id="table_descriptions_div">
+    look at me
+    // TODO: make a class that takes the output of vanna and parses it correctly for usage in the UI
+
+</div>
+</div>
+{% endblock content %}

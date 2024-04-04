@@ -2,11 +2,17 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>{block title} {endblock}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>{%block title%} {%endblock%}</title>
 </head>
+
+<header>
+    <h1>PostNL Database Requestor</h1>
+    {% block header %}  {% endblock %}
+</header>
 <body>
-{block content}
+{%block content%}
 <!-- Content for query.html and result.html will be inserted here -->
-{endblock}
+{%endblock%}
 </body>
 </html>
