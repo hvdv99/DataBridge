@@ -4,3 +4,4 @@ flask
 vanna
 seaborn
 matplotlib
+os
