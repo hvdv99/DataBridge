@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = '123'
 
 # I do not think it is necessary to connect to the database here, but I am not sure, so I did it anyway
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-db_sample_data_location = os.path.join(basedir, "data/PostNL_SQLite.sqlite")
+db_sample_data_location = os.path.join(basedir, "data", "PostNL_SQLite.sqlite")
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_sample_data_location
 #db_sample_data = SQLAlchemy(app)
