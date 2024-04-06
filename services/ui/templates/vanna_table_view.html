@@ -10,7 +10,7 @@
         <h3>Table descriptions</h3>
 
         {% for table in tables %}
-                {{titles[loop.index]}}
+                {{columns[loop.index]}}
                 {{ table|safe }}
         {% endfor %}
     </div>
@@ -39,7 +39,7 @@
         <input type="hidden" name="session_email" value="{{email}}">
         <input type="hidden" name="session_question" value="{{question}}">
         <input type="hidden" name="session_sql" value="{{sql_code}}">
-        <input type="hidden" name="column_description_dict" value="{{column_description_dict}}">
+        <input type="hidden" name="columns" value="{{columns | safe}}">
         <button type="submit" value="Request data" class="bottom_buttons" id="requestDataButton">Request data</button>
     </form>
 

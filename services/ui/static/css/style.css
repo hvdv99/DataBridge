@@ -163,3 +163,9 @@ table th, table td {
     cursor: pointer;
 }
 
+#requested_data_table_div{
+    width: 100%;
+    margin: 25px 25px 0 25px;
+    background: #fff;
+
+}

@@ -9,13 +9,13 @@
 <header>
     <div id="header_div">
         <img src="{{ url_for('static', filename='images/postnl-logo.png') }}" alt="PostNL logo" id="postnl_logo">
-    <label id = "title_UI"><h1>PostNL Database Requestor</h1></label>
+    <label id = "title_UI"><h1>PostNL Database Requestor | Data Analyst view</h1></label>
     </div>
     {% block header %}  {% endblock %}
 </header>
 <body>
 {%block content%}
-<!-- Content for start_session.html and vanna_table_view.html will be inserted here -->
+
 {%endblock%}
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>

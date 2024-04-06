@@ -7,13 +7,16 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 class RequestedDataInit(Base):
+    """
+    The class for the requested data table in the database. This table is for keeping track of the made requests
+    """
     __tablename__ = 'requested_data'
     id = Column(Integer, primary_key=True, autoincrement=True)
     question = Column(String)
     email = Column(String)
     subject = Column(String)
     sql_code = Column(String)
-    column_description_dict = Column(String)
+    columns = Column(String)
     date_created = Column(DateTime, default=datetime.now())
     accepted_bool = Column(Integer, default=0)
     date_accepted_or_rejected = Column(DateTime)
