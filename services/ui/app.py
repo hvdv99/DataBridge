@@ -1,20 +1,15 @@
 from flask import Flask, render_template, request, jsonify
-import jinja2
 from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import datetime
-
 from services.querier.querier import DbQuerier
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Time, Date, create_engine
-import sqlalchemy
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, DateTime
 import ast
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123'
 
-# I do not think it is necessary to connect to the database here, but I am not sure, so I did it anyway
+#This takes the directory of the project and then goes up 3 directories to get to the root of the project
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 db_sample_data_location = os.path.join(basedir, "data", "PostNL_SQLite.sqlite")
 
@@ -40,6 +35,7 @@ class RequestedDataInit(db_requested_data.Model):
     date_accepted_or_rejected = Column(DateTime)
     delivered_bool = Column(Integer)
 
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     """
@@ -51,7 +47,8 @@ def home():
     if request.method == 'GET':
         return render_template('start_session.html')
     elif request.method == 'POST':
-        return render_template('result.html')
+        pass
+
 
 @app.route('/vanna_table_view', methods=['GET', 'POST'])
 def vanna_table_view():
@@ -89,6 +86,7 @@ def vanna_table_view():
 
         return render_template('start_session.html')
 
+
 @app.route('/vanna_table_view/request_data', methods=['POST'])
 def request_data():
     """
@@ -102,9 +100,6 @@ def request_data():
     sql_code = request.form["session_sql"]
     columns = request.form["columns"]
 
-
-
-
     new_requested_data = RequestedDataInit(
         question=question,
         email=email,
@@ -116,9 +111,11 @@ def request_data():
         date_accepted_or_rejected=None,
         delivered_bool=0
     )
+
     db_requested_data.session.add(new_requested_data)
     db_requested_data.session.commit()
     return jsonify({"success": True, "message": "Data request received"})
+
 
 @app.route('/data_analyst_view', methods=['GET'])
 def data_analyst_view():
@@ -128,6 +125,7 @@ def data_analyst_view():
     result = RequestedDataInit.query.all()
 
     return render_template('data_analyst_view.html', requested_data=result)
+
 
 @app.route('/view_request/<request_id>', methods=['GET'])
 def view_request(request_id):
@@ -142,7 +140,10 @@ def view_request(request_id):
 
     column_description_dict = dbquery.get_descriptions_for_given_columns(columns=column_list)
     example_table = dbquery.generate_sample_data(sql_query=result.sql_code).head(10)
-    return render_template('view_request.html', requested_data=result, tables = [example_table.to_html(classes='data')], columns=example_table.columns.values, column_description_dict = column_description_dict)
+    return render_template('view_request.html', requested_data=result,
+                           tables = [example_table.to_html(classes='data')],
+                           columns=example_table.columns.values,
+                           column_description_dict = column_description_dict)
 
 
 

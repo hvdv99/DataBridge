@@ -8,11 +8,14 @@
 
     <div id="result_table_div">
         <h3>Table descriptions</h3>
-
-        {% for table in tables %}
+        {% if columns %}
+            {% for table in tables %}
                 {{columns[loop.index]}}
                 {{ table|safe }}
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+
     </div>
 
 <div id="table_descriptions_div">

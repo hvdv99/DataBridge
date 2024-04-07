@@ -1,11 +1,11 @@
-from datetime import datetime, date, time
-import os
-import pandas as pd
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Time, Date, create_engine
+from datetime import datetime
+from sqlalchemy import Column, Integer, String, DateTime, create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
+
+
 class RequestedDataInit(Base):
     """
     The class for the requested data table in the database. This table is for keeping track of the made requests

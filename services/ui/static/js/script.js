@@ -40,6 +40,7 @@ const jsonData = {
     }
 };
 
+
 function createTableButtons() {
     const container = document.getElementById("tableButtonContainer");
     const tableKeys = Object.keys(jsonData);

@@ -1,4 +1,5 @@
 
+// This script is used to send data from the form to the server using the fetch API.
 document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById("requestDataForm");
     const button = document.getElementById("requestDataButton");
