@@ -24,9 +24,6 @@
     <div id="tableButtonContainer"></div>
     <div id="columnButtonContainer"></div>
 
-    look at me
-    // TODO: make a class that takes the output of vanna and parses it correctly for usage in the UI
-
     {% endblock %}
 
 </div>
@@ -37,7 +34,7 @@
         <button type="submit" value="Reset" class="bottom_buttons">Retry</button>
     </form>
     <h1><span id="submissionMessage"></span></h1>
-    <form action="/vanna_table_view/request_data" method="POST" id="requestDataForm">
+    <form action="/vanna-table-view/request-data" method="POST" id="requestDataForm">
         <input type="hidden" name="session_subject" value="{{subject}}">
         <input type="hidden" name="session_email" value="{{email}}">
         <input type="hidden" name="session_question" value="{{question}}">
@@ -47,5 +44,5 @@
     </form>
 
 </div>
-<script src="{{ url_for('static', filename='js/script_request_data.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script-request-data.js') }}"></script>
 {% endblock content %}

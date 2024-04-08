@@ -1,4 +1,4 @@
-{%extends 'base_analyst.html'%}
+{%extends 'base-analyst.html'%}
 {% block title %} PostNL Data Requests {% endblock %}
 {% block header %} <h2>Select a session to accept or decline</h2> {% endblock %}
 {% block content %}
@@ -25,7 +25,7 @@ button to view the request in more detail.
         <td>{{request.accepted_bool}}</td>
         <td>{{request.date_accepted_or_rejected}}</td>
         <td>{{request.delivered_bool}}</td>
-        <td><button><a href="/view_request/{{request.id}}">View request</a></button></td>
+        <td><button><a href="/view-request/{{request.id}}">View request</a></button></td>
     </tr>
     {% endfor %}
 </table>
