@@ -30,6 +30,10 @@ in the `personal_constants.py` file. `personal_constants.py` is included in`.git
 are never pushed to Github. Make sure to define all constants in UPPERCASE. Whenever you need a confidential constant,
 first import the personal constant in `constants.py`, then import `constants.py` in your script.
 
+#### Personal constants
+You have to create your own personal constants file `config/personal_constants.py`. Make sure to include your own 
+API-key and your model name. 
+
 ### Add to gitignore
 Different IDE's use files we do not want in our repo. Check your directory for hidden files and add those to the 
 `.gitignore` file.
