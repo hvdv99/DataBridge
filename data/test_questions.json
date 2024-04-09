@@ -107,7 +107,8 @@
     "27": {
       "question": "Wat is het aantal pakketjes dat bezorgd is per maand?",
       "sql": "SELECT strftime('%Y-%m', sa_datum_distributiecollectie) AS maand, COUNT(*) AS aantal_pakketjes_bezorgd\nFROM collo_packages\nGROUP BY strftime('%Y-%m', sa_datum_distributiecollectie)\nORDER BY maand;"
-    },
+    }
+  },
   "medium_questions": {
     "1": {
       "question": "Hoeveel pakketten zijn er verzonden per maand, en hoe verhoudt dit zich tot het totaal in 2023?",
@@ -118,6 +119,5 @@
     "3": {
       "question": "Welke maand heeft de kleinste hoeveelheid pakketjes die meteen de eerste keer in ontvangst zijn genomen? En wat is de hoeveelheid totaal bezorgde pakketjes voor deze maand?",
       "sql": "WITH eerste_aflevering_per_maand AS (\n    SELECT strftime('%Y-%m', sa_datum_distributiecollectie) AS maand,\n           COUNT(*) AS aantal_eerste_aflevering\n    FROM collo_packages\n    WHERE da_resultaatcode = '01-Gecollecteerd bij eerste poging' OR '01-Uitgereikt bij eerste uitreikpoging'\n    GROUP BY strftime('%Y-%m', sa_datum_distributiecollectie)\n),\nkleinste_aantal_eerste_aflevering AS (\n    SELECT maand, MIN(aantal_eerste_aflevering) AS kleinste_aantal\n    FROM eerste_aflevering_per_maand\n)\nSELECT e.maand AS kleinste_maand, k.kleinste_aantal AS aantal_pakketjes\nFROM kleinste_aantal_eerste_aflevering k\nJOIN eerste_aflevering_per_maand e ON k.maand = e.maand;"}
-    }
   }
 }
