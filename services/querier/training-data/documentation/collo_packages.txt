@@ -1,0 +1,43 @@
+De 'collo_packages' tabel bevat informatie over pakketten zijn gelevered, of nog moeten worden geleverd door PostNL. De tabel bevat informatie over de jaren 2023 en 2024. Alle datums en tijdstempels zijn opgeslagen in het volgende formaat: 11/08/2023 en 19:22:02. Wanneer een een datumkolom leeg is (NULL) is de volgende waarden ingegeven: 9999-03-03 en de tijdstempelkolom zal dan leeg zijn. Als dit het geval is, dan heeft de processtap die de kolommen vertegenwoordigen nog niet plaatsgevonden.
+
+account_id_hashed: Dit veld bevat een identifier voor de klant of het account waaraan het pakket wordt geleverd. De waarden zijn niet uniek voor deze tabel en kunnen duplicaten bevatten. Dit veld fungeert als een vreemde sleutel die verwijst naar de primaire sleutel van de 'delivery_preference' tabel. Het kan leeg zijn voor pakketten die niet aan een specifiek account zijn gekoppeld.
+
+dn_barcode: Deze kolom bevat unieke identificatiecodes voor elk pakket. Hoewel de meeste waarden uniek zijn, kunnen er enkele duplicaten voorkomen.
+
+da_datum_voormelding: Bevat de datum waarop de bestelling oorspronkelijk is geplaatst.
+
+da_datum_acceptatie: Geeft de datum aan waarop het pakket voor het eerst door PostNL is ontvangen. Als een datumkolom leeg is, wordt de waarde '9999-03-03' gebruikt. Dit betekend dat het pakket nog niet door PostNL is ontvangen maar al wel is aangemeld.
+
+da_tijd_acceptatie:	Bevat de tijdstempel voor het moment waarop het pakket voor het eerst door PostNL is ontvangen. Als deze informatie niet beschikbaar is, wordt 'Nvt' weergegeven. Dit betekend dat het pakket nog niet door PostNL is ontvangen maar al wel is aangemeld.
+
+sa_dag_sortering1: Deze kolom bevat de datum waarop het proces in het sorteercentrum voor het eerst is gestart.
+
+sa_datum_sortering1: Indien het sorteercentrumproces doorgaat na middernacht, bevat deze kolom de datum van de volgende dag.
+
+sa_tijd_sortering1: Bevat een tijdstempel wanneer een pakket in een sorteercentrum is gesorteerd.
+
+sa_datum_distributiecollectie: Bevat de tijdstempel van wanneer het pakket voor het eerst in het sorteercentrum is gesorteerd.
+
+sa_tijd_distributiecollectie: Geeft de tijdstempel aan van het moment waarop het pakket het distributiecentrum bereikt.
+
+da_datum_herroutering_voor_up1:	Deze kolom bevat de datum waarop het pakket is omgeleid, meestal vanwege een mislukte eerste afleverpoging.
+
+da_tijd_herroutering_voor_up1: Bevat de tijdstempel van wanneer het pakket is omgeleid.
+
+da_datum_eindstatus: Geeft de datum aan waarop het pakket uiteindelijk door de klant is ontvangen. Wanneer het pakket nog door de klant is ontvangen bevat de kolom de waarde '9999-03-03'.
+
+da_tijd_eindstatus:	Bevat de tijdstempel voor het moment waarop het pakket door de klant is ontvangen.
+
+ma_gewicht, ma_breedte, ma_lengte, ma_hoogte, ma_volume: Deze velden bevatten respectievelijk het gewicht, de breedte, lengte, hoogte en het volume van een pakket. Alle waarden zijn gehele getallen. Deze velden kunnen optioneel leeg zijn.
+
+PC4_gea: Bevat de eerste vier cijfers van de postcode van de klant. Dit zijn de cijfers voorafgaand aan de twee letters in een typische Nederlandse postcode.
+
+da_landcode_gea: Geeft de landcode van de klant aan. Voor deze dataset bevat het enkel 'NL' voor Nederland.
+
+da_resultaatgroepcode: Bevat de uiteindelijke status van de levering. Mogelijke opties zijn: 01-Afgeleverd, 02-Gecollecteerd, 03-In Process, 04-Retour, 06-Voorgemeld.
+
+da_resultaatcode: Bevat de uiteindelijke status van het pakket. Mogelijke opties zijn: 01-Beschadigd, 01-Gecollecteerd bij eerste poging, 01-Uitgereikt bij eerste uitreikpoging, 01-Voormelding, 02-Geweigerd, 02-Manco, 02-Sortering, 02-Uitgereikt bij tweede uitreikpoging, 03-Definitief Manco, 03-Onbestelbaar, 03-Uitgereikt bij derde uitreikpoging, 04-Distributie, 04-Gecollecteerd bij onduidelijke poging, 04-Niet afgehaald AK, 04-Uitgereikt via afhaalkantoor, 05-Uitgereikt bij onduidelijke uitreikpoging, 06-Op afhaalkantoor, 08-Onbepaald, 11-Op verzoek Customer Service.
+
+da_type_adres_gea: Bevat informatie over of het adres privé, particulier of gemengd is.
+
+da_waarnemingsequence: Het proces pad van een pakket van begin tot eind. Bevat een reeks interne codes die elk een status voorstellen in process.

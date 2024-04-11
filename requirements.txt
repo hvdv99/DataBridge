@@ -4,4 +4,8 @@ flask
 vanna
 seaborn
 matplotlib
-os
+openai
+jupyter
+groq
+chromadb
+Pygments

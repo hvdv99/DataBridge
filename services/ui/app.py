@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request
 
-# importing the custom VannaQuerier class
-from vanna import VannaQuerier as vq
-
+from ..querier.querier import DBQuerier
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123'

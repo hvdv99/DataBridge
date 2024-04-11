@@ -1,0 +1,17 @@
+{
+  "Hoeveel pakketten zijn er in totaal geleverd in december 2023?": "SELECT SUM(number_of_parcels) FROM delivery_facts WHERE month_id = '202312';",
+  "Wat is het gemiddelde aantal pakketten per klant in juni 2023?": "SELECT AVG(number_of_parcels) FROM delivery_facts WHERE month_id = '202306';",
+  "Hoeveel klanten hebben meer dan 5 pakketten ontvangen in een maand?": "SELECT COUNT(DISTINCT account_id_hashed) FROM delivery_facts WHERE number_of_parcels > 5;",
+  "Welke maand had het hoogste aantal eerste bezorgpogingen aan huis in 2023?": "SELECT month_id, SUM(parcels_home_1st) AS total_first_attempts FROM delivery_facts WHERE month_id LIKE '2023%' GROUP BY month_id ORDER BY total_first_attempts DESC LIMIT 1;",
+  "Hoeveel pakketten zijn er in totaal geleverd in het eerste kwartaal van 2023?": "SELECT SUM(number_of_parcels) FROM delivery_facts WHERE month_id BETWEEN '202301' AND '202303';",
+  "Wat is het percentage van de pakketten dat bij de eerste poging thuis is afgeleverd in juli 2023?": "SELECT (SUM(parcels_home_1st) * 100.0 / SUM(number_of_parcels)) AS percentage_first_try FROM delivery_facts WHERE month_id = '202307';",
+  "Hoeveel unieke klanten ontvingen pakketten in 2023?": "SELECT COUNT(DISTINCT account_id_hashed) FROM delivery_facts WHERE month_id LIKE '2023%';",
+  "Wat is het gemiddelde aantal pakketten per klant over het hele jaar 2023?": "SELECT AVG(number_of_parcels) FROM delivery_facts WHERE month_id LIKE '2023%';",
+  "Hoeveel klanten hebben precies 3 pakketten in een maand ontvangen?": "SELECT COUNT(*) FROM delivery_facts WHERE number_of_parcels = 3;",
+  "Welke maand in 2023 had het laagste aantal pakketleveringen?": "SELECT month_id, SUM(number_of_parcels) AS total_parcels FROM delivery_facts WHERE month_id LIKE '2023%' GROUP BY month_id ORDER BY total_parcels ASC LIMIT 1;",
+  "Wat is het aantal afgeleverde pakketten per maand in 2023?": "SELECT month_id, SUM(number_of_parcels) FROM delivery_facts WHERE month_id LIKE '2023%' GROUP BY month_id;",
+  "Hoeveel pakketten werden er in totaal afgeleverd in het tweede kwartaal van 2023?": "SELECT SUM(number_of_parcels) FROM delivery_facts WHERE month_id BETWEEN '202304' AND '202306'",
+  "Hoeveel pakketten werden ontvangen door klanten die hun bezorgvoorkeuren hebben doorgeven in de maanden oktober en november van het jaar 2023?": "SELECT COUNT(DISTINCT cp.id) AS total_packages_received FROM collo_packages cp JOIN delivery_preference dp ON cp.account_id_hashed = dp.account_id_hashed WHERE cp.da_datum_acceptatie BETWEEN '2023-10-01' AND '2023-11-30';",
+  "Hoeveel pakketten heeft elke klant in totaal ontvangen?": "SELECT account_id_hashed, count(*) as total_packages_ordered FROM delivery_facts GROUP BY account_id_hashed ORDER by total_packages_ordered DESC;",
+  "Welk percentage pakketten werden bezorgd tijdens de eerste afleveringpoging in vergelijking met het totaal aantal bezorgde paketten in 2023?": "SELECT (SUM(parcels_home_1st) * 100.0 / SUM(number_of_parcels)) AS percentage_first_attempt FROM delivery_facts;"
+}

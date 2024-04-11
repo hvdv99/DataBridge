@@ -160,10 +160,9 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 .DS_Store
-config/personal_constants.py
+services/config/personal_constants.py
 
 data/*.csv
 data/*.db
 data/*.sqlite
-
-test-app/
+services/querier/chroma-db-files/*
