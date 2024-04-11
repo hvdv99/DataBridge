@@ -8,7 +8,7 @@
 
     <div id="result_table_div">
         <h3>Table descriptions</h3>
-        {% if columns %}
+        {% if columns  is not none%}
             {% for table in tables %}
                 {{columns[loop.index]}}
                 {{ table|safe }}

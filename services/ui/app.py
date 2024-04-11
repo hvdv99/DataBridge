@@ -81,6 +81,11 @@ def vanna_table_view():
             return render_template('start-session.html',
                                     error_message = f"I had an error generating the SQL, please rewrite question \n{str(e)}")
         column_description_dict = dbquery.get_descriptions_for_given_columns(columns=df.columns.values)
+        print("sql_code: ", sql_code)
+        print("df: ", df.head(10))
+        print("df.columns.values: ", df.columns.values)
+        print("df.columns.values type: ", type(df.columns.values))
+
 
         return render_template('vanna-column-description.html',
                                tables=[df.to_html(classes='data')],
@@ -99,6 +104,8 @@ def vanna_table_view():
         print("sql_code: ", sql_code)
 
         df = dbquery.generate_sample_data(sql_query=sql_code)
+        print("sql_code: ", sql_code)
+        print("df: ", df.head(10))
 
         return render_template('vanna-table-view.html', tables=[df.to_html(classes='data')], titles=df.columns.values,
                                sql_code=sql_code)
