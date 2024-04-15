@@ -58,7 +58,7 @@ class SqlGenerator:
         db_init.py script.
         """
 
-        chromadb_filepath = os.path.join('.', 'services', 'querier', 'chroma-db-files')
+        chromadb_filepath = os.path.join('..', '..', 'services', 'querier', 'chroma-db-files')
         if not os.path.exists(chromadb_filepath):
             os.mkdir(chromadb_filepath)
 
@@ -191,3 +191,30 @@ class SqlGenerator:
         generated_sql = self.vanna.generate_sql(question)
         generated_sql = generated_sql.replace("\\", "")
         return generated_sql
+      
+    @staticmethod
+    def _get_column_description_dict(self) -> dict:
+        """
+        Function that returns a dictionary with column descriptions which is in the documentation folder
+        :return: a dictionary with column descriptions
+        """
+        with open(os.path.join(os.path.dirname(__file__), "training-data", "documentation", "tables_column_documentation.json"), "r") as f:
+            table_column_description_dict = json.load(f)
+        return table_column_description_dict
+
+    @staticmethod
+    def get_descriptions_for_given_columns(self, columns: list) -> dict:
+        """
+        Function that returns a dictionary with column descriptions for the given columns
+        :param columns: a list of column names
+        :return: a dictionary with column descriptions
+        """
+        table_column_description_dict = self._get_column_description_dict()
+        column_descriptions_dict = {}
+        for table, value in table_column_description_dict.items():
+            for column, description in value.items():
+                if column in columns:
+                    column_descriptions_dict[column] = description
+                    table_description = "Retrieved from table: " + table
+                    column_descriptions_dict[table_description] = value["table"]
+        return column_descriptions_dict

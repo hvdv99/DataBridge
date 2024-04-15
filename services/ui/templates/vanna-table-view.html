@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %} Table view {% endblock %}
+{% block header %} <h2>Table view    | Subject:   {{subject}}     </h2> {% endblock %}
+{% block content %}
+
+
+<div id="table_with_description_div">
+
+    <div id="result_table_div">
+        <h3>Table descriptions</h3>
+        {% if columns  is not none%}
+            {% for table in tables %}
+                {{columns[loop.index]}}
+                {{ table|safe }}
+            {% endfor %}
+        {% endif %}
+
+
+    </div>
+
+<div id="table_descriptions_div">
+    {% block table_descriptions %}
+    {# This creates the descriptions of each of the columms. The divs below are used when the template is rendered
+    without using the request data button in the start-session view #}
+
+
+
+    <div id="tableButtonContainer"></div>
+    <div id="columnButtonContainer"></div>
+
+    {% endblock %}
+
+</div>
+</div>
+
+<div id="bottem_div_send_retry_buttons">
+    <form action="/" method="GET">
+        <button type="submit" value="Reset" class="bottom_buttons">Retry</button>
+    </form>
+    <h1><span id="submissionMessage"></span></h1>
+    <form action="/vanna-table-view/request-data" method="POST" id="requestDataForm">
+        <input type="hidden" name="session_subject" value="{{subject}}">
+        <input type="hidden" name="session_email" value="{{email}}">
+        <input type="hidden" name="session_question" value="{{question}}">
+        <input type="hidden" name="session_sql" value="{{sql_code}}">
+        <input type="hidden" name="columns" value="{{columns | safe}}">
+        <button type="submit" value="Request data" class="bottom_buttons" id="requestDataButton">Request data</button>
+    </form>
+
+</div>
+<script src="{{ url_for('static', filename='js/script-request-data.js') }}"></script>
+{% endblock content %}
