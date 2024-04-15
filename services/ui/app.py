@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import datetime
-from services.querier.querier import DbQuerier
+from services.querier.querier import SqlGenerator
 from sqlalchemy import Column, Integer, String, DateTime
 import ast
 
@@ -14,7 +14,7 @@ BASEDIR = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file
 DB_SAMPLE_DATA_LOCATION = os.path.join(BASEDIR, "data", "PostNL_SQLite.sqlite")
 
 # making the dbquery object for querying the database of PostNL data
-dbquery = DbQuerier(sample_db_loc=DB_SAMPLE_DATA_LOCATION)
+dbquery = SqlGenerator(sample_db_loc=DB_SAMPLE_DATA_LOCATION)
 
 # making the database to save and retrieve requested data
 

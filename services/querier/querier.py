@@ -4,15 +4,52 @@ import sys
 import json
 
 import pandas as pd
-from vanna.remote import VannaDefault
+from groq import Groq
+
+from vanna.openai.openai_chat import OpenAI_Chat
+from vanna.chromadb.chromadb_vector import ChromaDB_VectorStore
 
 from services.config import constants as c
 
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)  # sys.stdout = logging messages to console
+# level = general info messages
 
-class DbQuerier:
 
-    logging.basicConfig(stream=sys.stdout, level=logging.INFO)  # sys.stdout = logging messages to console
-    # level = general info messages
+class CustomVanna(ChromaDB_VectorStore, OpenAI_Chat):
+    """
+    CustomVanna class is used to customize Vanna to our own needs. In this case, the context model (vector db)
+    is configured. Also, Groq is used as an LLM.
+    """
+
+    def __init__(self, config=None):
+        ChromaDB_VectorStore.__init__(self, config=config)
+        groq_client = Groq(api_key=c.GROQ_API_KEY)
+        OpenAI_Chat.__init__(self, client=groq_client, config=config)
+
+
+class SqlGenerator:
+    """
+    The SqlGenerator class generates Sql queries based on a question send by the user. To use this class,
+    make sure to install the requirements, get your groq api key and insert it in the personal_constants file.
+    You can get your api key here: https://console.groq.com/keys
+    ...
+    Parameters
+    sample_db_loc: string
+        The path to the database file
+    ...
+    Attributes
+    ----------
+    vanna: CustomVanna
+        The customized version of the vanna class, as defined above
+    training_data: pd.DataFrame
+        In this DataFrame the current collection of training data is kept and will be updated with each
+        change.
+    ...
+    Methods
+    -------
+    All methods are implementations of the methods of the Base Vanna class. You can check those methods
+    by looking at the source code: https://github.com/vanna-ai/vanna/blob/main/src/vanna/base/base.py
+    """
 
     def __init__(self, sample_db_loc: str):
         """
@@ -20,9 +57,21 @@ class DbQuerier:
         :param sample_db_loc: the location of where your database is stored. The database can be created if you run
         db_init.py script.
         """
-        self.vanna = VannaDefault(api_key=c.VANNA_API_KEY, model=c.VANNA_MODEL_NAME)  # using the existing Vanna class
+
+        chromadb_filepath = os.path.join('..', '..', 'services', 'querier', 'chroma-db-files')
+        if not os.path.exists(chromadb_filepath):
+            os.mkdir(chromadb_filepath)
+
+        config = {
+            'model': 'mixtral-8x7b-32768',  # the model used by Groq
+            'path': chromadb_filepath,  # path where chroma-db-keeps its files
+            'temperature': 0.2,
+            'max_tokens': 1800
+        }
+
+        self.vanna = CustomVanna(config=config)
         self.vanna.connect_to_sqlite(sample_db_loc)  # connecting to the db
-        self.training_data_path = 'training-data'
+        self.TRAINING_DATA_PATH = os.path.join('services', 'querier', 'training-data')
         self.training_data = self.vanna.get_training_data()  # method from the original vanna class, returns Pandas df
         # this variable will show a pandas dataframe containing all the contextual training data
 
@@ -41,7 +90,7 @@ class DbQuerier:
         if len(self.vanna.get_training_data()) == 0:
             logging.info("Training data removed")
 
-    def train_model_on_ddl(self):
+    def _train_model_on_ddl(self):
         """
         Trains the model on Data Definition Language (DDL).
         What is DDL? See: https://www.techtarget.com/whatis/definition/Data-Definition-Language-DDL
@@ -54,7 +103,7 @@ class DbQuerier:
 
         logging.info('trained model on ddl')
 
-    def train_model_on_sql(self):
+    def _train_model_on_sql(self):
         """
         Trains the vanna remote context model on the query files listed in training-data/train_on_sql-queries
         Important: Vanna actually requires an associated question to a SQL query. This function does not require that,
@@ -69,20 +118,23 @@ class DbQuerier:
 
         logging.info('trained model on sql queries')
 
-    def train_model_on_documentation(self):
+    def _train_model_on_documentation(self):
         """
         Trains the vanna remote context model on the documentation files listed in training-data/documentation
         :return: None
         """
-        documentation_file_path = os.path.join('.', 'services', 'querier', 'training-data', 'documentation')
-        documentation_files = [f for f in os.listdir(documentation_file_path) if f.endswith('.txt')]
+        documentation_files =\
+            [f for f in os.listdir(os.path.join(self.TRAINING_DATA_PATH, 'documentation')) if f.endswith('.txt')]
         for doc_file in documentation_files:
-            with open(os.path.join(documentation_file_path, doc_file), 'r') as d:
-                self.vanna.train(documentation=d.read())
+            with open(os.path.join(self.TRAINING_DATA_PATH, 'documentation', doc_file), 'r') as d:
+                file_data = d.read().split('\n\n')  # creating chunks for each line
+
+                for chunk in file_data:
+                    self.vanna.add_documentation(chunk)
 
         logging.info('Trained model on documentation files')
 
-    def train_model_on_question_sql_pairs(self):
+    def _train_model_on_question_sql_pairs(self):
         """
         Function to train the model on questions and sql pairs.
         :return: None
@@ -107,16 +159,16 @@ class DbQuerier:
         :return:
         """
         if train_on_documentation:
-            self.train_model_on_documentation()
+            self._train_model_on_documentation()
 
         if train_on_sql:
-            self.train_model_on_sql()
+            self._train_model_on_sql()
 
         if train_on_ddl:
-            self.train_model_on_ddl()
+            self._train_model_on_ddl()
 
         if train_on_question_sql_pairs:
-            self.train_model_on_question_sql_pairs()
+            self._train_model_on_question_sql_pairs()
 
         self.training_data = self.vanna.get_training_data()  # updating the classes training data
 
@@ -136,9 +188,11 @@ class DbQuerier:
         :param question:
         :return: a string with the generated SQL code
         """
-        return self.vanna.generate_sql(question)
+        generated_sql = self.vanna.generate_sql(question)
+        generated_sql = generated_sql.replace("\\", "")
+        return generated_sql
 
-    def get_column_description_dict(self):
+    def _get_column_description_dict(self) -> dict:
         """
         Function that returns a dictionary with column descriptions which is in the documentation folder
         :return: a dictionary with column descriptions
@@ -147,13 +201,13 @@ class DbQuerier:
             table_column_description_dict = json.load(f)
         return table_column_description_dict
 
-    def get_descriptions_for_given_columns(self, columns):
+    def get_descriptions_for_given_columns(self, columns: list) -> dict:
         """
         Function that returns a dictionary with column descriptions for the given columns
         :param columns: a list of column names
         :return: a dictionary with column descriptions
         """
-        table_column_description_dict = self.get_column_description_dict()
+        table_column_description_dict = self._get_column_description_dict()
         column_descriptions_dict = {}
         for table, value in table_column_description_dict.items():
             for column, description in value.items():
@@ -162,4 +216,3 @@ class DbQuerier:
                     table_description = "Retrieved from table: " + table
                     column_descriptions_dict[table_description] = value["table"]
         return column_descriptions_dict
-
