@@ -4,3 +4,10 @@ flask
 vanna
 jinja2
 flask_sqlalchemy
+seaborn
+matplotlib
+openai
+jupyter
+groq
+chromadb
+Pygments

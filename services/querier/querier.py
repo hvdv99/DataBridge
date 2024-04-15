@@ -191,7 +191,8 @@ class SqlGenerator:
         generated_sql = self.vanna.generate_sql(question)
         generated_sql = generated_sql.replace("\\", "")
         return generated_sql
-
+      
+    @staticmethod
     def _get_column_description_dict(self) -> dict:
         """
         Function that returns a dictionary with column descriptions which is in the documentation folder
@@ -201,6 +202,7 @@ class SqlGenerator:
             table_column_description_dict = json.load(f)
         return table_column_description_dict
 
+    @staticmethod
     def get_descriptions_for_given_columns(self, columns: list) -> dict:
         """
         Function that returns a dictionary with column descriptions for the given columns
