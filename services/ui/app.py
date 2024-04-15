@@ -148,17 +148,16 @@ def request_data():
     sql_code = request.form["session_sql"]
     columns = request.form["columns"]
 
-    new_requested_data = RequestedDataInit(
-        question=question,
-        email=email,
-        subject=subject,
-        sql_code=sql_code,
-        columns=columns,
-        date_created=datetime.now(),
-        accepted_bool=0,
-        date_accepted_or_rejected=None,
-        delivered_bool=0
-    )
+    new_requested_data = RequestedDataInit(question=question,
+                                           email=email,
+                                           subject=subject,
+                                           sql_code=sql_code,
+                                           columns=columns,
+                                           date_created=datetime.now(),
+                                           accepted_bool=0,
+                                           date_accepted_or_rejected=None,
+                                           delivered_bool=0
+                                           )
 
     db_requested_data.session.add(new_requested_data)
     db_requested_data.session.commit()
@@ -188,9 +187,12 @@ def view_request(request_id):
     """
 
     result = RequestedDataInit.query.filter_by(id=request_id).first()
-    column_list = ast.literal_eval(result.columns)
-    column_description_dict = dbquery.get_descriptions_for_given_columns(columns=column_list)
     example_table = dbquery.generate_sample_data(sql_query=result.sql_code).head(10)
+    column_list = list(example_table.columns.values)
+    column_description_dict = dbquery.get_descriptions_for_given_columns(columns=column_list)
+
+    print("column_description_dict: ", column_description_dict)
+    print("column_list", list(example_table.columns.values))
 
     return render_template('view-request.html',
                            requested_data=result,

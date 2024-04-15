@@ -27,4 +27,5 @@ engine = create_engine('sqlite:///../PostNL_Requested_Data.sqlite')
 Base.metadata.create_all(engine)  # Create tables
 
 DBSession = sessionmaker(bind=engine)
+
 session = DBSession()
