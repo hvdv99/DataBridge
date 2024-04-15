@@ -35,6 +35,9 @@ class RequestedDataInit(db_requested_data.Model):
     date_accepted_or_rejected = Column(DateTime)
     delivered_bool = Column(Integer)
 
+#Creates the database if it does not exist
+with app.app_context():
+    db_requested_data.create_all()
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
