@@ -10,19 +10,24 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '123'
 
 # This takes the directory of the project and then goes up 3 directories to get to the root of the project
-basedir = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-db_sample_data_location = os.path.join(basedir, "data", "PostNL_SQLite.sqlite")
+BASEDIR = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+DB_SAMPLE_DATA_LOCATION = os.path.join(BASEDIR, "data", "PostNL_SQLite.sqlite")
 
 # making the dbquery object for querying the database of PostNL data
-dbquery = DbQuerier(sample_db_loc=db_sample_data_location)
+dbquery = DbQuerier(sample_db_loc=DB_SAMPLE_DATA_LOCATION)
 
 # making the database to save and retrieve requested data
-db_requested_data_location = os.path.join(basedir, "data", "PostNL_Requested_Data.sqlite")
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_requested_data_location
+
+DB_REQUESTED_DATA_LOCATION = os.path.join(BASEDIR, "data", "PostNL_Requested_Data.sqlite")
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + DB_REQUESTED_DATA_LOCATION
 db_requested_data = SQLAlchemy(app)
 
 
 class RequestedDataInit(db_requested_data.Model):
+    """
+    The class for the requested data table in the database. This table is for keeping track of the made requests
+    """
+
     __tablename__ = 'requested_data'
     id = Column(Integer, primary_key=True)
     question = Column(String)
@@ -35,9 +40,11 @@ class RequestedDataInit(db_requested_data.Model):
     date_accepted_or_rejected = Column(DateTime)
     delivered_bool = Column(Integer)
 
-#Creates the database if it does not exist
+
+# Creates the database if it does not exist
 with app.app_context():
     db_requested_data.create_all()
+
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -47,6 +54,7 @@ def home():
     - Flask: https://flask.palletsprojects.com/en/3.0.x/quickstart/#a-minimal-application
     - Jinja HTML templates: https://jinja.palletsprojects.com/en/3.1.x/templates/#template-inheritance
     """
+
     if request.method == 'GET':
         return render_template('start-session.html')
     elif request.method == 'POST':
@@ -61,7 +69,7 @@ def vanna_table_view():
     happens in a different html file.
 
     The else statement is for testing purposes, this loads an old html file with buttons for viewing the column
-    descriptions. This also uses a premade SQL query. It is important to note that you need to give the parameter of
+    descriptions. This also uses a pre-made SQL query. It is important to note that you need to give the parameter of
     the column description dict and the column description json. This is due to parsing not working properly. Else we
     will get issues with saving it later. So we use one to render in the uI and the json to send to the database to
     save.
@@ -72,19 +80,22 @@ def vanna_table_view():
         email = request.form['session_email']
         subject = request.form['session_subject']
         sql_code = dbquery.generate_sql(question)
+
         # If something goes wrong with generating the SQL if the question does not lead a valid SQL query,
         # then we will return an error message
         try:
             df = dbquery.generate_sample_data(sql_query=sql_code).head(10)
 
         except Exception as e:
-            return render_template('start-session.html',error_message=f"I had an error generating the SQL,please rewrite question \n{str(e)}")
+            error_text = f"I had an error generating the SQL, please rewrite question \n\n{str(e)}"
+
+            return render_template('start-session.html', error_message=error_text)
+
         column_description_dict = dbquery.get_descriptions_for_given_columns(columns=df.columns.values)
         print("sql_code: ", sql_code)
         print("df: ", df.head(10))
         print("df.columns.values: ", df.columns.values)
         print("df.columns.values type: ", type(df.columns.values))
-
 
         return render_template('vanna-column-description.html',
                                tables=[df.to_html(classes='data')],
@@ -93,21 +104,33 @@ def vanna_table_view():
                                question=question,
                                email=email,
                                subject=subject,
-                               column_description_dict=column_description_dict)
+                               column_description_dict=column_description_dict
+                               )
 
     else:
+        # This code is executed when the user only runs the url /vanna-table-view without submitting a form
         sql_code = """SELECT month_id, SUM(parcels_home_1st) AS total_first_attempts 
                       FROM delivery_facts WHERE month_id LIKE '2023%' 
                       GROUP BY month_id 
                       ORDER BY total_first_attempts DESC LIMIT 10"""
-        print("sql_code: ", sql_code)
 
         df = dbquery.generate_sample_data(sql_query=sql_code)
         print("sql_code: ", sql_code)
+        print("sql_code: ", sql_code)
         print("df: ", df.head(10))
 
-        return render_template('vanna-table-view.html', tables=[df.to_html(classes='data')],
-                               titles=df.columns.values, sql_code=sql_code)
+        column_description_dict = dbquery.get_descriptions_for_given_columns(columns=df.columns.values)
+
+        return render_template('vanna-table-view.html',
+                               tables=[df.to_html(classes='data')],
+                               titles=df.columns.values,
+                               sql_code=sql_code,
+                               columns=df.columns.values,
+                               column_description_dict=column_description_dict,
+                               email="test@test.nl",
+                               subject="test",
+                               question="test"
+                               )
 
 
 @app.route('/vanna-table-view/request-data', methods=['POST'])
@@ -118,6 +141,7 @@ def request_data():
     success message is shown
     :return json return message:
     """
+
     question = request.form['session_question']
     email = request.form['session_email']
     subject = request.form['session_subject']
@@ -138,6 +162,7 @@ def request_data():
 
     db_requested_data.session.add(new_requested_data)
     db_requested_data.session.commit()
+
     return jsonify({"success": True, "message": "Data request received"})
 
 
@@ -148,6 +173,7 @@ def data_analyst_view():
     database.
     :return: html template
     """
+
     result = RequestedDataInit.query.all()
 
     return render_template('data-analyst-view.html', requested_data=result)
@@ -158,18 +184,20 @@ def view_request(request_id):
     """
     This route is for the data analyst to view the details of a single row based on the ID of request.
     It will show all the data that is requested with information about the person who requested.
-    It gets the information about the request based on the "request_id" parameter that is given throug hthe URL
+    It gets the information about the request based on the "request_id" parameter that is given through the URL
     """
+
     result = RequestedDataInit.query.filter_by(id=request_id).first()
-
     column_list = ast.literal_eval(result.columns)
-
     column_description_dict = dbquery.get_descriptions_for_given_columns(columns=column_list)
     example_table = dbquery.generate_sample_data(sql_query=result.sql_code).head(10)
-    return render_template('view-request.html', requested_data=result,
+
+    return render_template('view-request.html',
+                           requested_data=result,
                            tables=[example_table.to_html(classes='data')],
                            columns=example_table.columns.values,
-                           column_description_dict=column_description_dict)
+                           column_description_dict=column_description_dict
+                           )
 
 
 if __name__ == "__main__":
