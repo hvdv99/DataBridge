@@ -111,7 +111,7 @@
   "medium_questions": {
     "1": {
       "question": "Hoeveel pakketten zijn er verzonden per maand, en hoe verhoudt dit zich tot het totaal in 2023?",
-      "sql": "-- Aantal verzonden pakketten per maand in 2023 SELECT strftime('%m', sa_datum_distributiecollectie) AS maand, COUNT(*) AS aantal_pakketten FROM collo_packages WHERE strftime('%Y', sa_datum_distributiecollectie) = '2023' GROUP BY maand; -- Percentage van verzonden pakketten per maand vergeleken met totaal in 2023 SELECT strftime('%m', sa_datum_distributiecollectie) AS maand, COUNT(*) * 100.0 / (SELECT COUNT(*) FROM collo_packages WHERE strftime('%Y', sa_datum_distributiecollectie) = '2023') AS percentage_van_totaal FROM collo_packages WHERE strftime('%Y', sa_datum_distributiecollectie) = '2023' GROUP BY maand;"},
+      "sql": "SELECT strftime('%m', sa_datum_distributiecollectie) AS maand, COUNT(*) AS aantal_pakketten FROM collo_packages WHERE strftime('%Y', sa_datum_distributiecollectie) = '2023' GROUP BY maand; SELECT strftime('%m', sa_datum_distributiecollectie) AS maand, COUNT(*) * 100.0 / (SELECT COUNT(*) FROM collo_packages WHERE strftime('%Y', sa_datum_distributiecollectie) = '2023') AS percentage_van_totaal FROM collo_packages WHERE strftime('%Y', sa_datum_distributiecollectie) = '2023' GROUP BY maand;"},
     "2": {
       "question": "Wat is het percentage pakketten dat bij de eerste bezorgpoging niet aan huis werd geleverd?",
       "sql": "SELECT (COUNT(CASE WHEN da_resultaatcode <> '01-Uitgereikt bij eerste uitreikpoging' THEN 1 END) * 100.0) / COUNT(*) AS percentage_niet_aan_huis_geleverd FROM collo_packages;"},
