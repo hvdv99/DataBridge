@@ -11,3 +11,4 @@ jupyter
 groq
 chromadb
 Pygments
+flask_sqlalchemy

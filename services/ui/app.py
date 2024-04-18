@@ -4,10 +4,12 @@ import os
 from datetime import datetime
 from services.querier.querier import SqlGenerator
 from sqlalchemy import Column, Integer, String, DateTime
-import ast
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123'
+
+
 
 # This takes the directory of the project and then goes up 3 directories to get to the root of the project
 BASEDIR = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
@@ -15,11 +17,13 @@ DB_SAMPLE_DATA_LOCATION = os.path.join(BASEDIR, "data", "PostNL_SQLite.sqlite")
 
 # making the dbquery object for querying the database of PostNL data
 dbquery = SqlGenerator(sample_db_loc=DB_SAMPLE_DATA_LOCATION)
+dbquery.train_model(train_on_sql=True, train_on_ddl=True,
+                    train_on_question_sql_pairs=True, train_on_documentation=True)
 
 # making the database to save and retrieve requested data
 
 DB_REQUESTED_DATA_LOCATION = os.path.join(BASEDIR, "data", "PostNL_Requested_Data.sqlite")
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + DB_REQUESTED_DATA_LOCATION
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + DB_REQUESTED_DATA_LOCATION;
 db_requested_data = SQLAlchemy(app)
 
 
