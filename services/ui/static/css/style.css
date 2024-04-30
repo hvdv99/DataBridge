@@ -41,17 +41,7 @@ header{
     width: 80%;
 }
 
-/* the class for the field where you have to put your question to vanna in the session */
-#session_question_field{
-    width: 50%;
-    padding: 10px;
-    margin: 10px 10% 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    height: 12em;
-    font-size:16px;
 
-}
 /* the div for each label and input box: for example: Subject and inputfield */
 .session_info{
     display: flex;
@@ -63,19 +53,43 @@ header{
 /* the label and input box for each div */
 .session_info label, .session_info input{
     display: inline-block;
+    margin-top: 12px;
+
 
 }
 
 
 .session_info input {
-  width: 50%;
-    margin: 10px 10% 10px 0;
+  width: 60%;
+    margin: 0 20% 10px 0;
     height: 2em;
     font-size:16px;
 
   text-align: left;
 
 }
+
+/* the class for the field where you have to put your question to vanna in the session */
+#session_question_field{
+    width: 60%;
+    margin: 0 20% 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 12em;
+    font-size:16px;
+
+}
+
+#submit_button_start_session{
+    width: 25%;
+    border: 1px solid #ccc;
+    margin-left: 50%;
+    border-radius: 5px;
+    height: 2em;
+    font-size:2em;
+    cursor: pointer;
+}
+
 
 .session_info label {
   width: 10%;
