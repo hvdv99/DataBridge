@@ -106,9 +106,15 @@ table {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 table thead tr {
-    background-color: #009879;
+    background-color: #e38f07;
     color: #ffffff;
     text-align: left;
+}
+
+.sql_text_area_class{
+    width: 250px;
+    height: 9em;
+    font-size:10px;
 }
 
 table th, table td {
@@ -129,6 +135,24 @@ table th, table td {
     flex-wrap: wrap;
     justify-content: space-between;
     margin: 10px 25px;
+}
+
+.bottem_div_components_table_view{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 10px 25px;
+}
+
+
+#data_comments_div{
+    margin-left: 25px;
+}
+
+#data_comments_div > textarea{
+    width: 100%;
+    height: 5em;
+    font-size:10px;
 }
 
 #result_table_div {

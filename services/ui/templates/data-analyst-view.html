@@ -1,11 +1,9 @@
 {%extends 'base.html'%}
 {% block title %} PostNL Data Requests {% endblock %}
 {% block title_heading %} PostNL Database Requestor | Data Analyst view {% endblock %}
-{% block header %} <h2>Select a session to accept or decline</h2> {% endblock %}
 {% block content %}
 
-A table in html should be made with each of the columns being from the requestedDataInit Class. The table should have a
-button to view the request in more detail.
+
 <div id="requested_data_table_div">
 <table>
     <tr>
@@ -13,7 +11,6 @@ button to view the request in more detail.
         <th>Email</th>
         <th>Subject</th>
         <th>Date created</th>
-        <th>Accepted</th>
         <th>Date accepted or rejected</th>
         <th>Delivered</th>
     </tr>
@@ -23,7 +20,6 @@ button to view the request in more detail.
         <td>{{request.email}}</td>
         <td>{{request.subject}}</td>
         <td>{{request.date_created}}</td>
-        <td>{{request.accepted_bool}}</td>
         <td>{{request.date_accepted_or_rejected}}</td>
         <td>{{request.delivered_bool}}</td>
         <td><button><a href="/view-request/{{request.id}}">View request</a></button></td>

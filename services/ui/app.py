@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import datetime
 from services.querier.querier import SqlGenerator
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, Date
 import ast
 
 app = Flask(__name__)
@@ -23,6 +23,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + DB_REQUESTED_DATA_LOCATIO
 db_requested_data = SQLAlchemy(app)
 
 
+
 class RequestedDataInit(db_requested_data.Model):
     """
     The class for the requested data table in the database. This table is for keeping track of the made requests
@@ -35,10 +36,10 @@ class RequestedDataInit(db_requested_data.Model):
     subject = Column(String)
     sql_code = Column(String)
     columns = Column(String)
-    date_created = Column(DateTime)
-    accepted_bool = Column(Integer)
-    date_accepted_or_rejected = Column(DateTime)
+    date_created = Column(Date)
+    date_accepted_or_rejected = Column(Date)
     delivered_bool = Column(Integer)
+    comments = Column(String)
 
 
 # Creates the database if it does not exist
@@ -80,6 +81,8 @@ def vanna_table_view():
         email = request.form['session_email']
         subject = request.form['session_subject']
         sql_code = dbquery.generate_sql(question)
+        print("sql_code: ", sql_code)
+        sql_code = """SELECT DISTINCT account_id_hashed FROM delivery_preference WHERE deliverypreference IS NOT NULL"""
 
         # If something goes wrong with generating the SQL if the question does not lead a valid SQL query,
         # then we will return an error message
@@ -147,6 +150,8 @@ def request_data():
     subject = request.form['session_subject']
     sql_code = request.form["session_sql"]
     columns = request.form["columns"]
+    comments = request.form["session_data_comments"]
+    print("comments: ", comments)
 
     new_requested_data = RequestedDataInit(question=question,
                                            email=email,
@@ -154,9 +159,9 @@ def request_data():
                                            sql_code=sql_code,
                                            columns=columns,
                                            date_created=datetime.now(),
-                                           accepted_bool=0,
                                            date_accepted_or_rejected=None,
-                                           delivered_bool=0
+                                           delivered_bool=0,
+                                           comments=comments
                                            )
 
     db_requested_data.session.add(new_requested_data)
@@ -165,13 +170,21 @@ def request_data():
     return jsonify({"success": True, "message": "Data request received"})
 
 
-@app.route('/data-analyst-view', methods=['GET'])
+@app.route('/data-analyst-view', methods=['GET', 'POST'])
 def data_analyst_view():
     """
     This route is for the data analyst to view the requested data. It will show all the data that is requested from the
     database.
     :return: html template
     """
+    if request.method == 'POST':
+        RequestedDataInit.query.filter_by(id=request.form['request_id']).update(dict(delivered_bool=1))
+        today = datetime.today()
+        RequestedDataInit.query.filter_by(id=request.form['request_id'])\
+            .update(dict(date_accepted_or_rejected=today))
+        db_requested_data.session.commit()
+
+
 
     result = RequestedDataInit.query.all()
 
@@ -186,6 +199,7 @@ def view_request(request_id):
     It gets the information about the request based on the "request_id" parameter that is given through the URL
     """
 
+
     result = RequestedDataInit.query.filter_by(id=request_id).first()
     example_table = dbquery.generate_sample_data(sql_query=result.sql_code).head(10)
     column_list = list(example_table.columns.values)
@@ -198,7 +212,11 @@ def view_request(request_id):
                            requested_data=result,
                            tables=[example_table.to_html(classes='data')],
                            columns=example_table.columns.values,
-                           column_description_dict=column_description_dict
+                           column_description_dict=column_description_dict,
+                           request_id=request_id,
+                           sql_code=result.sql_code,
+                           comments=result.comments
+
                            )
 
 

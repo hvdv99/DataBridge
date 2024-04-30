@@ -4,9 +4,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById("requestDataForm");
     const button = document.getElementById("requestDataButton");
     const messageDiv = document.getElementById("submissionMessage");
+    const comments_input = document.getElementById("comments_data_request");
 
     form.addEventListener("submit", function(event) {
         event.preventDefault(); // Prevent the form from submitting normally
+        document.getElementById('hiddenDataComments').value = comments_input.value;
+
 
         // Gather the form data
         const formData = new FormData(form);
