@@ -58,18 +58,20 @@ class SqlGenerator:
         db_init.py script.
         """
 
-        chromadb_filepath = os.path.join('.', 'services', 'querier', 'chroma-db-files')
+        chromadb_filepath = os.path.join('..', '..', 'services', 'querier', 'chroma-db-files')
         if not os.path.exists(chromadb_filepath):
             os.mkdir(chromadb_filepath)
 
         config = {
             'model': 'mixtral-8x7b-32768',  # the model used by Groq
-            'path': chromadb_filepath  # path where chroma-db-keeps its files
+            'path': chromadb_filepath,  # path where chroma-db-keeps its files
+            'temperature': 0.2,
+            'max_tokens': 1800
         }
 
         self.vanna = CustomVanna(config=config)
         self.vanna.connect_to_sqlite(sample_db_loc)  # connecting to the db
-        self.training_data_path = os.path.join('services', 'querier', 'training-data')
+        self.TRAINING_DATA_PATH = os.path.join('services', 'querier', 'training-data')
         self.training_data = self.vanna.get_training_data()  # method from the original vanna class, returns Pandas df
         # this variable will show a pandas dataframe containing all the contextual training data
 
@@ -88,7 +90,7 @@ class SqlGenerator:
         if len(self.vanna.get_training_data()) == 0:
             logging.info("Training data removed")
 
-    def train_model_on_ddl(self):
+    def _train_model_on_ddl(self):
         """
         Trains the model on Data Definition Language (DDL).
         What is DDL? See: https://www.techtarget.com/whatis/definition/Data-Definition-Language-DDL
@@ -101,7 +103,7 @@ class SqlGenerator:
 
         logging.info('trained model on ddl')
 
-    def train_model_on_sql(self):
+    def _train_model_on_sql(self):
         """
         Trains the vanna remote context model on the query files listed in training-data/train_on_sql-queries
         Important: Vanna actually requires an associated question to a SQL query. This function does not require that,
@@ -116,15 +118,15 @@ class SqlGenerator:
 
         logging.info('trained model on sql queries')
 
-    def train_model_on_documentation(self):
+    def _train_model_on_documentation(self):
         """
         Trains the vanna remote context model on the documentation files listed in training-data/documentation
         :return: None
         """
         documentation_files =\
-            [f for f in os.listdir(os.path.join(self.training_data_path, 'documentation')) if f.endswith('.txt')]
+            [f for f in os.listdir(os.path.join(self.TRAINING_DATA_PATH, 'documentation')) if f.endswith('.txt')]
         for doc_file in documentation_files:
-            with open(os.path.join(self.training_data_path, 'documentation', doc_file), 'r') as d:
+            with open(os.path.join(self.TRAINING_DATA_PATH, 'documentation', doc_file), 'r') as d:
                 file_data = d.read().split('\n\n')  # creating chunks for each line
 
                 for chunk in file_data:
@@ -132,7 +134,7 @@ class SqlGenerator:
 
         logging.info('Trained model on documentation files')
 
-    def train_model_on_question_sql_pairs(self):
+    def _train_model_on_question_sql_pairs(self):
         """
         Function to train the model on questions and sql pairs.
         :return: None
@@ -157,16 +159,16 @@ class SqlGenerator:
         :return:
         """
         if train_on_documentation:
-            self.train_model_on_documentation()
+            self._train_model_on_documentation()
 
         if train_on_sql:
-            self.train_model_on_sql()
+            self._train_model_on_sql()
 
         if train_on_ddl:
-            self.train_model_on_ddl()
+            self._train_model_on_ddl()
 
         if train_on_question_sql_pairs:
-            self.train_model_on_question_sql_pairs()
+            self._train_model_on_question_sql_pairs()
 
         self.training_data = self.vanna.get_training_data()  # updating the classes training data
 
@@ -189,3 +191,30 @@ class SqlGenerator:
         generated_sql = self.vanna.generate_sql(question)
         generated_sql = generated_sql.replace("\\", "")
         return generated_sql
+      
+    @staticmethod
+    def _get_column_description_dict(self) -> dict:
+        """
+        Function that returns a dictionary with column descriptions which is in the documentation folder
+        :return: a dictionary with column descriptions
+        """
+        with open(os.path.join(os.path.dirname(__file__), "training-data", "documentation", "tables_column_documentation.json"), "r") as f:
+            table_column_description_dict = json.load(f)
+        return table_column_description_dict
+
+    @staticmethod
+    def get_descriptions_for_given_columns(self, columns: list) -> dict:
+        """
+        Function that returns a dictionary with column descriptions for the given columns
+        :param columns: a list of column names
+        :return: a dictionary with column descriptions
+        """
+        table_column_description_dict = self._get_column_description_dict()
+        column_descriptions_dict = {}
+        for table, value in table_column_description_dict.items():
+            for column, description in value.items():
+                if column in columns:
+                    column_descriptions_dict[column] = description
+                    table_description = "Retrieved from table: " + table
+                    column_descriptions_dict[table_description] = value["table"]
+        return column_descriptions_dict
