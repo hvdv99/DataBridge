@@ -53,7 +53,7 @@
       "sql": "SELECT COUNT(*) AS aantal_pakketjes FROM collo_packages WHERE ma_gewicht > 10000;"
     },
     "14": {
-      "question": "Wat is de gemiddelde doorlooptijd van aanmelding tot bezorging van het pakket?\n#%%\n",
+      "question": "Wat is de gemiddelde doorlooptijd van aanmelding tot bezorging van het pakket?",
       "sql": "SELECT AVG(JULIANDAY(da_datum_eindstatus) - JULIANDAY(da_datum_voormelding)) AS gemiddelde_doorlooptijd FROM collo_packages WHERE da_datum_eindstatus IS NOT '9999-03-03' AND da_datum_voormelding IS NOT '9999-03-03';"
     },
     "15": {
