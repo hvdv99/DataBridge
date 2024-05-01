@@ -4,7 +4,6 @@ import os
 from datetime import datetime
 from services.querier.querier import SqlGenerator
 from sqlalchemy import Column, Integer, String, Date
-import ast
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123'
@@ -16,12 +15,14 @@ DB_SAMPLE_DATA_LOCATION = os.path.join(BASEDIR, "data", "PostNL_SQLite.sqlite")
 # making the dbquery object for querying the database of PostNL data
 dbquery = SqlGenerator(sample_db_loc=DB_SAMPLE_DATA_LOCATION)
 
-# making the database to save and retrieve requested data
+# removing all training data and training the model
+dbquery.remove_all_training_data()
+dbquery.train_model()
 
+# making the database to save and retrieve requested data
 DB_REQUESTED_DATA_LOCATION = os.path.join(BASEDIR, "data", "PostNL_Requested_Data.sqlite")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + DB_REQUESTED_DATA_LOCATION
 db_requested_data = SQLAlchemy(app)
-
 
 
 class RequestedDataInit(db_requested_data.Model):
@@ -82,7 +83,6 @@ def vanna_table_view():
         subject = request.form['session_subject']
         sql_code = dbquery.generate_sql(question)
         print("sql_code: ", sql_code)
-        sql_code = """SELECT DISTINCT account_id_hashed FROM delivery_preference WHERE deliverypreference IS NOT NULL"""
 
         # If something goes wrong with generating the SQL if the question does not lead a valid SQL query,
         # then we will return an error message
@@ -184,8 +184,6 @@ def data_analyst_view():
             .update(dict(date_accepted_or_rejected=today))
         db_requested_data.session.commit()
 
-
-
     result = RequestedDataInit.query.all()
 
     return render_template('data-analyst-view.html', requested_data=result)
@@ -198,8 +196,6 @@ def view_request(request_id):
     It will show all the data that is requested with information about the person who requested.
     It gets the information about the request based on the "request_id" parameter that is given through the URL
     """
-
-
     result = RequestedDataInit.query.filter_by(id=request_id).first()
     example_table = dbquery.generate_sample_data(sql_query=result.sql_code).head(10)
     column_list = list(example_table.columns.values)

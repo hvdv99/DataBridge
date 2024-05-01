@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     form.addEventListener("submit", function(event) {
         event.preventDefault(); // Prevent the form from submitting normally
+        // Below the hidden input fields are updated with the values of the form fields because the comments
+        // field is not included in the form data because it is in a separate div.
         document.getElementById('hiddenDataComments').value = comments_input.value;
 
 

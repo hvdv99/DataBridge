@@ -30,7 +30,6 @@ header{
     color: #2f3284;
 }
 
-
 /* the class for the div that contains the form for the session */
 #question_div{
     background-color: whitesmoke;
@@ -41,8 +40,7 @@ header{
     width: 80%;
 }
 
-
-/* the div for each label and input box: for example: Subject and inputfield */
+/* the div for each label and input box: for example: Subject and input field */
 .session_info{
     display: flex;
     flex-wrap: wrap;
@@ -55,16 +53,14 @@ header{
     display: inline-block;
     margin-top: 12px;
 
-
 }
 
 
 .session_info input {
   width: 60%;
-    margin: 0 20% 10px 0;
-    height: 2em;
-    font-size:16px;
-
+  margin: 0 20% 10px 0;
+  height: 2em;
+  font-size:16px;
   text-align: left;
 
 }
@@ -159,6 +155,7 @@ table th, table td {
     width: 50%;
     margin: 10px 0;
     background: #fff;
+    overflow-x: auto ;
 }
 
 #table_descriptions_div {
@@ -206,4 +203,9 @@ table th, table td {
     margin: 25px 25px 0 25px;
     background: #fff;
 
+}
+
+a {
+    text-decoration: none;
+    color: #2f3284;
 }

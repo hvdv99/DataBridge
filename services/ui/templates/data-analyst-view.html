@@ -22,7 +22,7 @@
         <td>{{request.date_created}}</td>
         <td>{{request.date_accepted_or_rejected}}</td>
         <td>{{request.delivered_bool}}</td>
-        <td><button><a href="/view-request/{{request.id}}">View request</a></button></td>
+        <td><button class="view_request_link_button"><a href="/view-request/{{request.id}}">View request</a></button></td>
     </tr>
     {% endfor %}
 </table>
