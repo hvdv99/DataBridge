@@ -65,7 +65,7 @@ class SqlGenerator:
             os.mkdir(chromadb_filepath)
 
         config = {
-            'model': 'mixtral-8x7b-32768',  # the model used by Groq
+            'model': 'llama3-8b-8192',  # the model used by Groq
             'path': chromadb_filepath,  # path where chroma-db-keeps its files
             'temperature': 0.2,
             'max_tokens': 1800
