@@ -107,17 +107,102 @@
     "27": {
       "question": "Wat is het aantal pakketjes dat bezorgd is per maand?",
       "sql": "SELECT strftime('%Y-%m', sa_datum_distributiecollectie) AS maand, COUNT(*) AS aantal_pakketjes_bezorgd FROM collo_packages GROUP BY strftime('%Y-%m', sa_datum_distributiecollectie) ORDER BY maand;"
-    },
+    }
+  },
   "medium_questions": {
     "1": {
-    "question": "Hoeveel pakketten zijn er verzonden per maand, en hoe verhoudt dit zich tot het totaal in 2023?",
-      "sql": "WITH total_pakketjes AS (SELECT COUNT(*) AS total FROM collo_packages WHERE strftime('%Y', sa_datum_distributiecollectie) = '2023') SELECT strftime('%m', sa_datum_distributiecollectie) AS maand, COUNT(*) AS aantal_pakketten, (COUNT(*) * 100.0 / (SELECT total FROM total_pakketjes)) AS percentage_van_totaal FROM collo_packages WHERE strftime('%Y', sa_datum_distributiecollectie) = '2023' GROUP BY maand;"},
+      "question": "Hoeveel pakketten zijn er verzonden per maand, en hoe verhoudt dit zich tot het totaal in 2023?",
+      "sql": "WITH total_pakketjes AS (SELECT COUNT(*) AS total FROM collo_packages WHERE strftime('%Y', sa_datum_distributiecollectie) = '2023') SELECT strftime('%m', sa_datum_distributiecollectie) AS maand, COUNT(*) AS aantal_pakketten, (COUNT(*) * 100.0 / (SELECT total FROM total_pakketjes)) AS percentage_van_totaal FROM collo_packages WHERE strftime('%Y', sa_datum_distributiecollectie) = '2023' GROUP BY maand;"
+    },
     "2": {
       "question": "Wat is het percentage pakketten dat bij de eerste bezorgpoging niet aan huis werd geleverd?",
-      "sql": "SELECT (COUNT(CASE WHEN da_resultaatcode <> '01-Uitgereikt bij eerste uitreikpoging' THEN 1 END) * 100.0) / COUNT(*) AS percentage_niet_aan_huis_geleverd FROM collo_packages;"},
+      "sql": "SELECT (COUNT(CASE WHEN da_resultaatcode <> '01-Uitgereikt bij eerste uitreikpoging' THEN 1 END) * 100.0) / COUNT(*) AS percentage_niet_aan_huis_geleverd FROM collo_packages;"
+    },
     "3": {
       "question": "Welke maand heeft de kleinste hoeveelheid pakketjes die meteen de eerste keer in ontvangst zijn genomen? En wat is de hoeveelheid totaal bezorgde pakketjes voor deze maand?",
-      "sql": "WITH eerste_aflevering_per_maand AS (SELECT strftime('%Y-%m', sa_datum_distributiecollectie) AS maand, COUNT(*) AS aantal_eerste_aflevering FROM collo_packages WHERE da_resultaatcode = '01-Gecollecteerd bij eerste poging' OR '01-Uitgereikt bij eerste uitreikpoging' GROUP BY strftime('%Y-%m', sa_datum_distributiecollectie)),kleinste_aantal_eerste_aflevering AS (SELECT maand, MIN(aantal_eerste_aflevering) AS kleinste_aantal FROM eerste_aflevering_per_maand) SELECT e.maand AS kleinste_maand, k.kleinste_aantal AS aantal_pakketjes FROM kleinste_aantal_eerste_aflevering k JOIN eerste_aflevering_per_maand e ON k.maand = e.maand;"}
+      "sql": "WITH eerste_aflevering_per_maand AS (SELECT strftime('%Y-%m', sa_datum_distributiecollectie) AS maand, COUNT(*) AS aantal_eerste_aflevering FROM collo_packages WHERE da_resultaatcode = '01-Gecollecteerd bij eerste poging' OR '01-Uitgereikt bij eerste uitreikpoging' GROUP BY strftime('%Y-%m', sa_datum_distributiecollectie)),kleinste_aantal_eerste_aflevering AS (SELECT maand, MIN(aantal_eerste_aflevering) AS kleinste_aantal FROM eerste_aflevering_per_maand) SELECT e.maand AS kleinste_maand, k.kleinste_aantal AS aantal_pakketjes FROM kleinste_aantal_eerste_aflevering k JOIN eerste_aflevering_per_maand e ON k.maand = e.maand;",
+    },
+  },
+  "hard_questions": {
+    "1": {
+      "question": "Welke accounts hebben parcell lockers als voorkeur?",
+      "sql": "SELECT DISTINCT(dp.account_id_hashed), dp.deliverypreference FROM delivery_preference dp WHERE dp.deliverypreference = 'ParcelLocker';"
+    },
+    "2": {
+      "question": "Welke accounts hebben Retail location als voorkeur? En op welke datum is hun account gecreëerd?",
+      "sql": "SELECT dp.account_id_hashed, dp.deliverypreference, dp.datecreated FROM delivery_preference dp WHERE dp.deliverypreference = 'RetailLocation' and datecreated is not NULL;"
+    },
+    "3": {
+      "question": "In welke maand zijn de meeste accounts voor het laatst aangepast?",
+      "sql": "SELECT strftime('%Y-%m', datelastupdated) AS maand, COUNT(*) AS aantal_aanpassingen FROM delivery_preference WHERE datelastupdated != '9999-03-03' GROUP BY maand ORDER BY aantal_aanpassingen DESC LIMIT 1;"
+    },
+    "4": {
+      "question": "Voor welke accounts is de laatste update op dezelfde dag als de creatie van het account?",
+      "sql": "SELECT dp.account_id_hashed, dp.datelastupdated, dp.datecreated FROM delivery_preference dp WHERE DATE(dp.datecreated) = DATE(dp.datelastupdated);"
+    },
+    "5": {
+      "question": "Wat is het favoriete adres van Pieter Post om pakketjes te bezorgen?",
+      "sql": ""
+    },
+    "6": {
+      "question": "Wat is het gemiddelde aantal bezorgpogingen per pakket?",
+      "sql": "SELECT AVG(bezorgpogingen) AS gemiddeld_aantal_bezorgpogingen FROM (SELECT dn_barcode, CASE WHEN da_resultaatcode = '01-Uitgereikt bij eerste uitreikpoging' THEN 1 WHEN da_resultaatcode = '02-Uitgereikt bij tweede uitreikpoging' THEN 2 WHEN da_resultaatcode = '03-Uitgereikt bij derde uitreikpoging' THEN 3 ELSE 1 END AS bezorgpogingen FROM collo_packages) AS pogingen_tabel;"
+    },
+    "7": {
+      "question": "Hoeveel pakketten zijn er beschadigd aangekomen bij ontvangers in 2023?",
+      "sql": "SELECT count(*) as totaal_aantal_pakketten_beschadigd FROM collo_packages cp WHERE cp.da_resultaatcode = '01-Beschadigd' and strftime('%Y', cp.da_datum_eindstatus) = '2023';"
+    },
+    "8": {
+      "question": "Wat is het percentage pakketten dat gebruik heeft gemaakt van een afhaallocatie voor bezorging?",
+      "sql": "SELECT (SELECT COUNT(*) FROM delivery_preference WHERE deliverypreference IN ('ParcelLocker', 'PublicParcelLocker', 'RetailLocation')) * 100.0 / (SELECT COUNT(*) FROM delivery_preference) AS percentage_gebruik_afhaallocatie;"
+    },
+    "9": {
+      "question": "Wat is het gemiddelde aantal bezorgpogingen voor pakketten die uiteindelijk succesvol zijn afgeleverd in 2023?",
+      "sql": "SELECT AVG(bezorgpogingen) AS gemiddeld_aantal_bezorgpogingen FROM (SELECT dn_barcode, CASE da_resultaatcode WHEN '01-Uitgereikt bij eerste uitreikpoging' THEN 1 WHEN '02-Uitgereikt bij tweede uitreikpoging' THEN 2 WHEN '03-Uitgereikt bij derde uitreikpoging' THEN 3 END AS bezorgpogingen FROM collo_packages WHERE da_resultaatgroepcode = '01-Afgeleverd' AND strftime('%Y', da_datum_eindstatus) = '2023') AS afgeleverde_pakketten;"
+    },
+    "10": {
+      "question": "Wat is het gemiddelde aantal dagen tussen aanmelding en eerste bezorgpoging van een pakket in 2023?",
+      "sql": "SELECT AVG(julianday(da_datum_eindstatus) - julianday(da_datum_voormelding)) AS gemiddeld_aantal_dagen FROM collo_packages WHERE da_datum_voormelding LIKE '2023%' AND da_datum_eindstatus LIKE '2023%' AND da_datum_voormelding != '9999-03-03' AND da_datum_eindstatus != '9999-03-03';"
+    },
+    "11": {
+      "question": "Wat is het gemiddelde aantal dagen dat een pakket in het sorteercentrum heeft doorgebracht in 2023?",
+      "sql": "SELECT AVG(dagen_in_sorteercentrum) AS gemiddeld_aantal_dagen FROM (SELECT dn_barcode, julianday(sa_datum_distributiecollectie) - julianday(sa_dag_sortering1) AS dagen_in_sorteercentrum FROM collo_packages WHERE strftime('%Y', sa_dag_sortering1) = '2023' AND sa_dag_sortering1 IS NOT NULL AND sa_datum_distributiecollectie IS NOT NULL AND sa_dag_sortering1 != '9999-03-03'        AND sa_datum_distributiecollectie != '9999-03-03') AS sorteerdata;"
+    },
+    "12": {
+      "question": "Hoeveel pakketten zijn er retour gestuurd door ontvangers in 2023?",
+      "sql": "SELECT COUNT(*) AS aantal_retour_pakketten FROM collo_packages WHERE da_resultaatgroepcode = '04-Retour' AND strftime('%Y', da_datum_eindstatus) = '2023' AND da_datum_eindstatus != '9999-03-03';"
+    },
+    "13": {
+      "question": "Wat is het gemiddelde aantal bezorgpogingen per pakket dat uiteindelijk niet is afgeleverd?",
+      "sql": "SELECT AVG(bezorgpogingen) AS gemiddeld_aantal_bezorgpogingen FROM (SELECT dn_barcode, SUM(CASE WHEN da_resultaatcode = '01-Uitgereikt bij eerste uitreikpoging' THEN 1 WHEN da_resultaatcode = '02-Uitgereikt bij tweede uitreikpoging' THEN 2 WHEN da_resultaatcode = '03-Uitgereikt bij derde uitreikpoging' THEN 3 ELSE 1 END) AS bezorgpogingen FROM collo_packages WHERE da_resultaatgroepcode = '04-Retour' GROUP BY dn_barcode) AS geretourneerde_pakketten;"
+    },
+    "14": {
+      "question": "Hoeveel pakketten zijn er bezorgd aan bedrijfsadressen?",
+      "sql": "SELECT COUNT(*) AS aantal_bedrijfsadressen FROM collo_packages WHERE da_type_adres_gea = 'Gemengd';"
+    },
+    "15": {
+      "question": "Wat is het percentage pakketten dat succesvol is afgeleverd na een mislukte eerste bezorgpoging?",
+      "sql": "SELECT (SELECT COUNT(*) FROM collo_packages WHERE da_resultaatcode IN ('02-Uitgereikt bij tweede uitreikpoging', '03-Uitgereikt bij derde uitreikpoging', '05-Uitgereikt bij onduidelijke uitreikpoging') AND da_datum_eindstatus LIKE '2023%') * 100.0 / (SELECT COUNT(*) FROM collo_packages WHERE da_resultaatcode IN ('01-Uitgereikt bij eerste uitreikpoging', '02-Uitgereikt bij tweede uitreikpoging', '03-Uitgereikt bij derde uitreikpoging','05-Uitgereikt bij onduidelijke uitreikpoging') AND da_datum_eindstatus LIKE '2023%') AS percentage_na_mislukte_eerste_poging;"
+    },
+    "16": {
+      "question": "Welk pakket had de langste doorlooptijd tussen aanmelding en bezorging?",
+      "sql": "SELECT dn_barcode, da_datum_voormelding, da_datum_eindstatus, julianday(da_datum_eindstatus) - julianday(da_datum_voormelding) AS dagen_tussen_aanmelding_en_bezorging FROM collo_packages WHERE da_datum_voormelding != '9999-03-03' AND da_datum_eindstatus != '9999-03-03' ORDER BY dagen_tussen_aanmelding_en_bezorging DESC LIMIT 1;"
+    },
+    "17": {
+      "question": "Hoeveel pakketten zijn er naar het buitenland verzonden?",
+      "sql": "SELECT COUNT(*) AS aantal_pakketten_naar_buitenland FROM collo_packages WHERE da_landcode_gea != 'NL';"
+    },
+    "18": {
+      "question": "Wat is het gemiddelde aantal bezorgpogingen per pakket naar het buitenland?",
+      "sql": "SELECT AVG(bezorgpogingen) AS gemiddeld_aantal_bezorgpogingen FROM (SELECT dn_barcode, CASE WHEN da_resultaatcode LIKE '01-Uitgereikt bij eerste uitreikpoging' THEN 1 WHEN da_resultaatcode LIKE '02-Uitgereikt bij tweede uitreikpoging' THEN 2 WHEN da_resultaatcode LIKE '03-Uitgereikt bij derde uitreikpoging' THEN 3 ELSE 0 END AS bezorgpogingen FROM collo_packages WHERE da_landcode_gea != 'NL' AND da_landcode_gea IS NOT NULL AND da_datum_eindstatus != '9999-03-03') AS buitenlandse_pakketten WHERE bezorgpogingen > 0;"
+    },
+    "19": {
+      "question": "Wat is het meest voorkomende reden voor het niet succesvol afleveren van een pakket na meerdere bezorgpogingen?",
+      "sql": "SELECT da_resultaatcode, COUNT(*) AS resultaatcode_aantal FROM collo_packages WHERE da_resultaatgroepcode = '04-Retour' GROUP BY da_resultaatcode ORDER BY resultaatcode_aantal DESC LIMIT 1;"
+    },
+    "20": {
+      "question": "Hoeveel pakketten zijn er succesvol afgeleverd na een herplanning van de bezorging?",
+      "sql": "SELECT COUNT(*) AS aantal_succesvol_afgeleverd_na_herplanning FROM collo_packages WHERE da_datum_herroutering_voor_up1 IS NOT NULL AND da_datum_herroutering_voor_up1 != '9999-03-03' AND da_resultaatgroepcode = '01-Afgeleverd';"
     }
   }
 }
