@@ -38,6 +38,36 @@
 
 </div>
 </div>
+
+<div id="bottem_div_send_retry_buttons">
+    <div class="bottem_div_components_table_view">
+        <div id="retry_button_div">
+            <form action="/data-analyst-view" method="GET">
+                <button type="submit" value="Reset" class="bottom_buttons">Retry</button>
+            </form>
+        </div>
+        <div id="data_comments_div">
+            <label for="comments_data_request">Feedback comment of request: </label>
+            <textarea id="comments_data_request"  class="comments_data_request_class">{{comments}}</textarea>
+        </div>
+    </div>
+    <div class="bottem_div_components_table_view">
+        <textarea id="session_sql"  class="sql_text_area_class">{{sql_code}}</textarea>
+    </div>
+
+
+    <div class="bottem_div_components_table_view">
+        <form action="/data-analyst-view" method="POST" id="requestDataForm">
+            <input type="hidden" name="request_id" value="{{request_id}}">
+
+
+            <button type="submit" value="I have send the data" class="bottom_buttons" id="requestDataButton">
+                I have send the data
+            </button>
+        </form>
+    </div>
+
+</div>
 {% endblock %}
 
 
