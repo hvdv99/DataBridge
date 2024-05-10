@@ -39,6 +39,18 @@
 </div>
 </div>
 
+<div id="feedback_sql_div">
+    <div id="data_comments_div_view_request" class="individual_feedback_sql_div">
+            <label for="comments_data_request">Feedback comment of request: </label>
+            <textarea id="comments_data_request"  class="comments_data_request_class">{{comments}}</textarea>
+    </div>
+
+    <div id="sql_bottem_view_request" class="individual_feedback_sql_div">
+        <label for="session_sql">SQL code:</label>
+        <textarea id="session_sql"  class="sql_text_area_class">{{sql_code}}</textarea>
+    </div>
+</div>
+
 <div id="bottem_div_send_retry_buttons">
     <div class="bottem_div_components_table_view">
         <div id="retry_button_div">
@@ -46,14 +58,9 @@
                 <button type="submit" value="Reset" class="bottom_buttons">Retry</button>
             </form>
         </div>
-        <div id="data_comments_div">
-            <label for="comments_data_request">Feedback comment of request: </label>
-            <textarea id="comments_data_request"  class="comments_data_request_class">{{comments}}</textarea>
-        </div>
+
     </div>
-    <div class="bottem_div_components_table_view">
-        <textarea id="session_sql"  class="sql_text_area_class">{{sql_code}}</textarea>
-    </div>
+
 
 
     <div class="bottem_div_components_table_view">

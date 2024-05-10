@@ -9,12 +9,14 @@
     <div id="result_table_div">
         <h3>Table descriptions</h3>
         WARMING! data comes from a fictional sample database and that it is therefore not the real data
-        {% if columns  is not none%}
-            {% for table in tables %}
-                {{columns[loop.index]}}
-                {{ table|safe }}
-            {% endfor %}
-        {% endif %}
+        <div id="table_container">
+            {% if columns  is not none%}
+                {% for table in tables %}
+                    {{columns[loop.index]}}
+                    {{ table|safe }}
+                {% endfor %}
+            {% endif %}
+        </div>
 
 
     </div>
@@ -31,6 +33,7 @@
 
     {% endblock %}
 
+</div>
 </div>
 
 <div id="feedback_div">
