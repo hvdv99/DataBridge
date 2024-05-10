@@ -30,7 +30,6 @@ header{
     color: #2f3284;
 }
 
-
 /* the class for the div that contains the form for the session */
 #question_div{
     background-color: whitesmoke;
@@ -41,8 +40,7 @@ header{
     width: 80%;
 }
 
-
-/* the div for each label and input box: for example: Subject and inputfield */
+/* the div for each label and input box: for example: Subject and input field */
 .session_info{
     display: flex;
     flex-wrap: wrap;
@@ -55,16 +53,14 @@ header{
     display: inline-block;
     margin-top: 12px;
 
-
 }
 
 
 .session_info input {
   width: 60%;
-    margin: 0 20% 10px 0;
-    height: 2em;
-    font-size:16px;
-
+  margin: 0 20% 10px 0;
+  height: 2em;
+  font-size:16px;
   text-align: left;
 
 }
@@ -106,9 +102,15 @@ table {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 table thead tr {
-    background-color: #009879;
+    background-color: #e38f07;
     color: #ffffff;
     text-align: left;
+}
+
+.sql_text_area_class{
+    width: 250px;
+    height: 9em;
+    font-size:10px;
 }
 
 table th, table td {
@@ -131,10 +133,29 @@ table th, table td {
     margin: 10px 25px;
 }
 
+.bottem_div_components_table_view{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 10px 25px;
+}
+
+
+#data_comments_div{
+    margin-left: 25px;
+}
+
+#data_comments_div > textarea{
+    width: 100%;
+    height: 5em;
+    font-size:10px;
+}
+
 #result_table_div {
     width: 50%;
     margin: 10px 0;
     background: #fff;
+    overflow-x: auto ;
 }
 
 #table_descriptions_div {
@@ -182,4 +203,9 @@ table th, table td {
     margin: 25px 25px 0 25px;
     background: #fff;
 
+}
+
+a {
+    text-decoration: none;
+    color: #2f3284;
 }
