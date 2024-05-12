@@ -8,11 +8,11 @@
 
 {% block content %}
 
+<div id="flexbox_square_view_request">
 
-<div id="table_with_description_div">
 
 
-    <div id="result_table_div">
+    <div id="result_table_div" class="half_size_div">
         <h3>Table descriptions</h3>
         {# This code creates the example table in the view #}
 
@@ -23,32 +23,33 @@
             {% endfor %}
     </div>
 
-<div id="table_descriptions_div">
-    <div class="column_description">
-        {# This creates the descriptions of each of the columms #}
+    <div id="table_descriptions_div" class="half_size_div" >
+        <div class="column_description">
+            {# This creates the descriptions of each of the columms #}
 
-        {% for column, description in column_description_dict.items() %}
+            {% for column, description in column_description_dict.items() %}
 
-            <h3>{{ column }}</h3>
-            <p>{{ description }}</p>
+                <h3>{{ column }}</h3>
+                <p>{{ description }}</p>
 
-        {% endfor %}
+            {% endfor %}
+        </div>
+
+
     </div>
 
 
-</div>
-</div>
 
-<div id="feedback_sql_div">
-    <div id="data_comments_div_view_request" class="individual_feedback_sql_div">
+    <div id="data_comments_div_view_request"  class="half_size_div">
             <label for="comments_data_request">Feedback comment of request: </label>
             <textarea id="comments_data_request"  class="comments_data_request_class">{{comments}}</textarea>
     </div>
 
-    <div id="sql_bottem_view_request" class="individual_feedback_sql_div">
+    <div id="sql_bottem_view_request"  class="half_size_div">
         <label for="session_sql">SQL code:</label>
         <textarea id="session_sql"  class="sql_text_area_class">{{sql_code}}</textarea>
     </div>
+
 </div>
 
 <div id="bottem_div_send_retry_buttons">

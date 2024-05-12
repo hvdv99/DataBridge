@@ -3,12 +3,12 @@
 {% block header %} <h2>Table view    | Subject:   {{subject}}     </h2> {% endblock %}
 {% block content %}
 
+<div id="flexbox_square_view_request">
 
-<div id="table_with_description_div">
 
-    <div id="result_table_div">
+    <div id="result_table_div" class="half_size_div">
         <h3>Table descriptions</h3>
-        WARMING! data comes from a fictional sample database and that it is therefore not the real data
+        LET OP! data is afkomstig uit een fictieve dataset, het kan zijn dat de data incompleet is.
         <div id="table_container">
             {% if columns  is not none%}
                 {% for table in tables %}
@@ -21,22 +21,22 @@
 
     </div>
 
-<div id="table_descriptions_div">
-    {% block table_descriptions %}
-    {# This creates the descriptions of each of the columms. The divs below are used when the template is rendered
-    without using the request data button in the start-session view #}
+    <div id="table_descriptions_div" class="half_size_div">
+        {% block table_descriptions %}
+        {# This creates the descriptions of each of the columms. The divs below are used when the template is rendered
+        without using the request data button in the start-session view #}
 
 
 
-    <div id="tableButtonContainer"></div>
-    <div id="columnButtonContainer"></div>
+        <div id="tableButtonContainer"></div>
+        <div id="columnButtonContainer"></div>
 
-    {% endblock %}
+        {% endblock %}
 
-</div>
-</div>
+    </div>
 
-<div id="feedback_div">
+
+<div id="feedback_div" >
     <div id="text_div_feedback">
         <p>Extra opmerking voor data analist:</p>
     </div>
@@ -47,6 +47,7 @@
     </div>
 
 
+</div>
 </div>
 
 <div id="bottem_div_send_retry_buttons">

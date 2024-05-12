@@ -90,7 +90,8 @@ def vanna_table_view():
             df = dbquery.generate_sample_data(sql_query=sql_code).head(10)
 
         except Exception as e:
-            error_text = f"I had an error generating the SQL, please rewrite question \n\n{str(e)}"
+            error_text = "I had a problem with your question, please try again."
+            print(f"I had an error generating the SQL, please rewrite question \n\n{str(e)}")
 
             return render_template('start-session.html', error_message=error_text)
 

@@ -117,20 +117,7 @@ table th, table td {
     padding: 12px 15px;
 }
 
-#table_with_description_div {
 
-    display: flex;
-    flex-wrap: wrap;
-    margin: 10px 25px;
-    width: 100%;
-
-}
-
-#table_with_description_div > div {
-    margin: 10px 10px;
-    width: 45.8%;
-
-}
 
 
 #bottem_div_send_retry_buttons{
@@ -142,12 +129,7 @@ table th, table td {
 }
 
 
-#feedback_div{
-    width: 95%;
-    display: flex;
-    margin: 10px 10px 12px 33px;
-    background-color: wheat;
-}
+
 
 #data_comments_div{
     width: 75%
@@ -222,6 +204,7 @@ table th, table td {
     cursor: pointer;
 }
 
+
 #requested_data_table_div{
     width: 100%;
     margin: 25px 25px 0 25px;
@@ -229,37 +212,53 @@ table th, table td {
 
 }
 
-#feedback_sql_div{
-    width: 96%;
-    margin: 25px 25px 5px 25px;
-    display: flex;
 
-}
 
 #feedback_sql_div > div{
-    width: 49%;
-    margin-left: 10px;
 
-    padding: 15px;
     background: wheat;
 
 }
 
-.individual_feedback_sql_div > textarea {
+.half_size_div > textarea {
     margin: 10px 10px;
     width: 95%;
     height: 8em;
     font-size:10px;
 }
 
-.individual_feedback_sql_div > label{
+.half_size_div > label{
     margin: 10px 10px;
     font-size: 1.2em;
     font-weight: bold;
 
 }
-#sql_bottem_view_request{
-    margin-left: 30px
+
+
+#flexbox_square_view_request{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px 10px 10px 10px;
+}
+
+#flexbox_square_view_request > .half_size_div{
+    width: 47.5%;
+    margin: 10px 0;
+    background: wheat;
+    padding: 5px;
+    border: 10px solid #fff;
+
+}
+
+#feedback_div{
+    width: 100%;
+    display: flex;
+    margin: 10px 0;
+    background: wheat;
+    padding: 5px;
+    border: 10px solid #fff;
 }
 
 a {
