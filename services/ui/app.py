@@ -48,7 +48,7 @@ with app.app_context():
     db_requested_data.create_all()
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def home():
     """
     Basic setup for a flask query application. To include variables in HTML template,
@@ -59,8 +59,6 @@ def home():
 
     if request.method == 'GET':
         return render_template('start-session.html')
-    elif request.method == 'POST':
-        pass
 
 
 @app.route('/vanna-table-view', methods=['GET', 'POST'])
