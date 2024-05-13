@@ -138,10 +138,6 @@
             "question": "Voor welke accounts is de laatste update op dezelfde dag als de creatie van het account?",
             "sql": "SELECT dp.account_id_hashed, dp.datelastupdated, dp.datecreated FROM delivery_preference dp WHERE DATE(dp.datecreated) = DATE(dp.datelastupdated);"
         },
-        "5": {
-            "question": "Wat is het favoriete adres van Pieter Post om pakketjes te bezorgen?",
-            "sql": ""
-        },
         "6": {
             "question": "Wat is het gemiddelde aantal bezorgpogingen per pakket?",
             "sql": "SELECT AVG(bezorgpogingen) AS gemiddeld_aantal_bezorgpogingen FROM (SELECT dn_barcode, CASE WHEN da_resultaatcode = '01-Uitgereikt bij eerste uitreikpoging' THEN 1 WHEN da_resultaatcode = '02-Uitgereikt bij tweede uitreikpoging' THEN 2 WHEN da_resultaatcode = '03-Uitgereikt bij derde uitreikpoging' THEN 3 ELSE 1 END AS bezorgpogingen FROM collo_packages) AS pogingen_tabel;"
