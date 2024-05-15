@@ -30,9 +30,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     messageDiv.innerText = data.message; // Display the message from the server
                 } else {
                     // Handle the case where success is not true
-                    messageDiv.innerText = "There was an issue with your request.";
+                    messageDiv.innerText = "Er was een probleem met je aanvraag.";
                 }
             })
-            .catch(error => console.error('There has been a problem with your fetch operation:', error));
+            .catch(error => console.error('Er was een probleem met de aanvraag:', error));
     });
 });

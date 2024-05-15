@@ -1,52 +1,65 @@
 {% extends 'base.html' %}
 {% block title %} Table view {% endblock %}
-{% block header %} <h2>Table view    | Subject:   {{subject}}     </h2> {% endblock %}
+{% block header %}
+<h2>Table view    | Subject:   {{subject}}     </h2>
+<h3>Question: {{question}}</h3>{% endblock %}
 {% block content %}
 
+<div id="flexbox_square_view_request">
 
-<div id="table_with_description_div">
 
-    <div id="result_table_div">
+    <div id="result_table_div" class="half_size_div">
         <h3>Table descriptions</h3>
-        WARMING! data comes from a fictional sample database and that it is therefore not the real data
-        {% if columns  is not none%}
-            {% for table in tables %}
-                {{columns[loop.index]}}
-                {{ table|safe }}
-            {% endfor %}
-        {% endif %}
+        LET OP! data is afkomstig uit een fictieve dataset, het kan zijn dat de data incompleet is.
+        <div id="table_container">
+            {% if columns  is not none%}
+                {% for table in tables %}
+                    {{columns[loop.index]}}
+                    {{ table|safe }}
+                {% endfor %}
+            {% endif %}
+        </div>
 
 
     </div>
 
-<div id="table_descriptions_div">
-    {% block table_descriptions %}
-    {# This creates the descriptions of each of the columms. The divs below are used when the template is rendered
-    without using the request data button in the start-session view #}
+    <div id="table_descriptions_div" class="half_size_div">
+        {% block table_descriptions %}
+        {# This creates the descriptions of each of the columms. The divs below are used when the template is rendered
+        without using the request data button in the start-session view #}
 
 
 
-    <div id="tableButtonContainer"></div>
-    <div id="columnButtonContainer"></div>
+        <div id="tableButtonContainer"></div>
+        <div id="columnButtonContainer"></div>
 
-    {% endblock %}
+        {% endblock %}
+
+    </div>
+
+
+<div id="feedback_div" >
+    <div id="text_div_feedback">
+        <p>Extra opmerking voor data analist:</p>
+    </div>
+
+    <div id="data_comments_div">
+            <label for="comments_data_request"></label>
+            <textarea id="comments_data_request" name="session_data_comments" class="comments_data_request_class"  required></textarea>
+    </div>
+
 
 </div>
-
-
 </div>
 
 <div id="bottem_div_send_retry_buttons">
     <div class="bottem_div_components_table_view">
         <div id="retry_button_div">
             <form action="/" method="GET">
-                <button type="submit" value="Reset" class="bottom_buttons">Retry</button>
+                <button type="submit" value="Reset" class="bottom_buttons">Reset</button>
             </form>
         </div>
-        <div id="data_comments_div">
-            <label for="comments_data_request">Feedback comment: </label>
-            <textarea id="comments_data_request" name="session_data_comments" class="comments_data_request_class"  required></textarea>
-        </div>
+
     </div>
 
     <div class="bottem_div_components_table_view">
@@ -62,7 +75,7 @@
             <input type="hidden" name="columns" value="{{columns | safe}}">
             <input type="hidden" name="session_data_comments" id="hiddenDataComments">
 
-            <button type="submit" value="Request data" class="bottom_buttons" id="requestDataButton">Request data</button>
+            <button type="submit" value="Request data" class="bottom_buttons" id="requestDataButton">Data aanvragen</button>
         </form>
     </div>
 

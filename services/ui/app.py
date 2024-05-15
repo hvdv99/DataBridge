@@ -48,7 +48,7 @@ with app.app_context():
     db_requested_data.create_all()
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def home():
     """
     Basic setup for a flask query application. To include variables in HTML template,
@@ -59,8 +59,6 @@ def home():
 
     if request.method == 'GET':
         return render_template('start-session.html')
-    elif request.method == 'POST':
-        pass
 
 
 @app.route('/vanna-table-view', methods=['GET', 'POST'])
@@ -90,7 +88,8 @@ def vanna_table_view():
             df = dbquery.generate_sample_data(sql_query=sql_code).head(10)
 
         except Exception as e:
-            error_text = f"I had an error generating the SQL, please rewrite question \n\n{str(e)}"
+            error_text = "  Ik had een probleem met jouw vraag, probeer opnieuw!"
+            print(f"Ik had een probleem met jouw vraag, probeer opnieuw! \n\n{str(e)}")
 
             return render_template('start-session.html', error_message=error_text)
 
