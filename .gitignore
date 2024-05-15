@@ -166,3 +166,5 @@ data/*.csv
 data/*.db
 data/*.sqlite
 services/querier/chroma-db-files/*
+
+test/vanna_output/vanna_output.json
