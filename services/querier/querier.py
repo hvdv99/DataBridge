@@ -4,12 +4,10 @@ import sys
 import json
 
 import pandas as pd
-from groq import Groq
+import openai
 
 from vanna.openai.openai_chat import OpenAI_Chat
 from vanna.chromadb.chromadb_vector import ChromaDB_VectorStore
-
-from services.config import constants as c
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)  # sys.stdout = logging messages to console
 # level = general info messages
@@ -23,8 +21,8 @@ class CustomVanna(ChromaDB_VectorStore, OpenAI_Chat):
 
     def __init__(self, config=None):
         ChromaDB_VectorStore.__init__(self, config=config)
-        groq_client = Groq(api_key=c.GROQ_API_KEY)
-        OpenAI_Chat.__init__(self, client=groq_client, config=config)
+        openai_client = openai.Client(api_key=os.environ['OPENAI_API_KEY'])
+        OpenAI_Chat.__init__(self, client=openai_client, config=config)
 
 
 class SqlGenerator:
@@ -63,14 +61,13 @@ class SqlGenerator:
         if not os.path.exists(chromadb_filepath):
             os.mkdir(chromadb_filepath)
 
-        config = {
-            'model': 'llama3-8b-8192',  # the model used by Groq
-            'path': chromadb_filepath,  # path where chroma-db-keeps its files
-            'temperature': 0.2,
-            'max_tokens': 1800
+        self.config = {
+            'model': 'gpt-3.5-turbo-0125',  # the model used
+            'path': chromadb_filepath,
+            'temperature': 0.2
         }
 
-        self.vanna = CustomVanna(config=config)
+        self.vanna = CustomVanna(config=self.config)
         self.vanna.connect_to_sqlite(sample_db_loc)  # connecting to the db
         self.training_data = self.vanna.get_training_data()  # method from the original vanna class, returns Pandas df
         # this variable will show a pandas dataframe containing all the contextual training data

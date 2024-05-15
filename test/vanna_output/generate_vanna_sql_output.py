@@ -1,18 +1,16 @@
-#This script uses the GROQ's SqlGenerator to create SQL statements from questions stored in a JSON file.
-# Note: Due to the GROQ API's rate limiting, the execution might be slow if there are many requests.
-
 from services.querier.querier import SqlGenerator
 import os
 import json
 import re
+from datetime import datetime
 
 # Define the paths for the database and JSON files.
-base_dir = os.path.dirname(os.path.abspath(__file__))
-database_path = os.path.join(base_dir, '..', '..', 'data', 'PostNL_SQLite.sqlite')
-json_file_path = os.path.join(base_dir, '..', '..', 'data', 'test_questions.json')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE_PATH = os.path.join(BASE_DIR, '..', '..', 'data', 'PostNL_SQLite.sqlite')
+ANSWERS_2_TEST_PATH = os.path.join(BASE_DIR, '..', 'test_questions', 'test_questions.json')
 
 # Create an SqlGenerator object for querying the PostNL database.
-dbquery = SqlGenerator(sample_db_loc=database_path)
+dbquery = SqlGenerator(sample_db_loc=DATABASE_PATH)
 
 # Initialize the model training process and remove any prior training data.
 dbquery.remove_all_training_data()
@@ -80,14 +78,18 @@ def generate_question_sql_dict(data: dict) -> dict:
 
 
 # Load the JSON data from the specified file.
-data = load_json(json_file_path)
+data = load_json(ANSWERS_2_TEST_PATH)
+model_name = dbquery.config['model']
 
-# Generate the dictionary mapping questions to their SQL outputs.
-question_sql_output = generate_question_sql_dict(data)
+for _ in range(10):
 
-# Define and write the output to a JSON file.
-output_file_name = 'vanna_output.json'
-with open(output_file_name, 'w', encoding='utf-8') as json_file:
-    json.dump(question_sql_output, json_file, indent=4, ensure_ascii=False)
+    # Define and write the output to a JSON file.
+    timestamp = datetime.now().strftime("%H%M%S_%d%m%Y")
+    output_file_name = f'vanna_output_{model_name}_{timestamp}.json'
 
-print(f"Output JSON file created: {output_file_name}")
+    with open(output_file_name, 'w', encoding='utf-8') as json_file:
+        # Generate the dictionary mapping questions to their SQL outputs.
+        question_sql_output = generate_question_sql_dict(data)
+        json.dump(question_sql_output, json_file, indent=4, ensure_ascii=False)
+
+    print(f"Output JSON file created: {output_file_name}")

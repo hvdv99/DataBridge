@@ -1,4 +1,7 @@
 {
+  "Geef me een overzicht van alle data beschikbaar in de pakketten tabel": "select * from collo_packages limit 20;",
+  "Geef me een overzicht van alle data beschikbaar in de bezorgvoorkeuren tabel": "select * from delivery_facts limit 20;",
+  "Geef me een overzicht van alle data beschikbaar in de bezorgfeiten tabel": "select * from delivery_preference limit 20;",
   "Hoeveel pakketten zijn er in totaal geleverd in december 2023?": "SELECT SUM(number_of_parcels) FROM delivery_facts WHERE month_id = '202312';",
   "Wat is het gemiddelde aantal pakketten per klant in juni 2023?": "SELECT AVG(number_of_parcels) FROM delivery_facts WHERE month_id = '202306';",
   "Hoeveel klanten hebben meer dan 5 pakketten ontvangen in een maand?": "SELECT COUNT(DISTINCT account_id_hashed) FROM delivery_facts WHERE number_of_parcels > 5;",

@@ -93,8 +93,8 @@
             "sql": "SELECT count(*) FROM collo_packages WHERE ma_lengte > 1000 AND ma_breedte > 500;"
         },
         "24": {
-            "question": "Welke pakketjes hebben een gewicht groter dan 10000 gram en een breedte kleiner dan 300?",
-            "sql": "SELECT dn_barcode FROM collo_packages WHERE ma_gewicht > 10000 AND ma_breedte < 300;"
+            "question": "Welke pakketjes hebben een gewicht groter dan 10000 gram en een breedte kleiner dan 300? Geef alle informatie over deze pakketjes.",
+            "sql": "SELECT * FROM collo_packages WHERE ma_gewicht > 10000 AND ma_breedte < 300;"
         },
         "25": {
             "question": "Welke pakketjes hebben een breedte groter dan 1000? En wat is hun lengte?",
