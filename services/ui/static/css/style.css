@@ -77,7 +77,6 @@ header{
 }
 
 #submit_button_start_session{
-    width: 25%;
     border: 1px solid #ccc;
     margin-left: 50%;
     border-radius: 5px;
@@ -264,4 +263,20 @@ table th, table td {
 a {
     text-decoration: none;
     color: #2f3284;
+}
+
+#error_message_start{
+    color: red;
+    margin-left: 20%;
+    margin-right:20%;
+}
+
+.view_request_link_button{
+    font-size: 1.5em;
+    font-weight:bold;
+}
+
+#submissionMessage{
+    color: green;
+
 }
