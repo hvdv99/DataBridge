@@ -4,7 +4,12 @@
 This repository hosts the source code for the project we did for PostNL. We created an application that translates data requests from natural language to a SQL Query. 
 
 ## Running the application
-In order to run the application we set up a Dockerfile. The image requires an OPEN AI API key. Run the following commands to test the application locally:
+
+### Data
+First, the application needs a database. In order to get one, insert the raw anonimized `.csv` files to `/data`, then run `/data/db_init/db_init.py` which is a script that creates a database. Please note, this takes several minutes.
+
+### Application Container
+In order to run the application we set up a Dockerfile. The image requires an OPEN AI API key to be inserted as environment variable. Run the following commands to test the application locally:
 
 **Building the image**
 
