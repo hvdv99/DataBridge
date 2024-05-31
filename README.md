@@ -8,12 +8,12 @@ In order to run the application we set up a Dockerfile. The image requires an OP
 
 **Building the image**
 
-`docker build -t DataBridge .
+`docker build -t databridge .
 `
 
 **Running the image**
 
-`docker run -d -p 8080:5000 -e OPENAI_API_KEY=<your-key> DataBridge
+`docker run -d -p 8080:5000 -e OPENAI_API_KEY=<your-key> databridge
 `
 
 ## Repository Structure
