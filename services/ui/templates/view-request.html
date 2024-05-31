@@ -1,0 +1,81 @@
+{%extends 'base.html'%}
+{% block title %} PostNL Data Requests {% endblock %}
+{% block title_heading %} PostNL Database Requestor | Data Analyst view {% endblock %}
+
+{% block header %} <h2>Table view    | Subject:   {{requested_data.subject}}  | Email: {{requested_data.email}}   </h2>
+<h3>Question: {{requested_data.question}}</h3>
+{% endblock %}
+
+{% block content %}
+
+<div id="flexbox_square_view_request">
+
+
+
+    <div id="result_table_div" class="half_size_div">
+        <h3>Table descriptions</h3>
+        {# This code creates the example table in the view #}
+
+
+            {% for table in tables %}
+                    {{columns[loop.index]}}
+                    {{ table|safe }}
+            {% endfor %}
+    </div>
+
+    <div id="table_descriptions_div" class="half_size_div" >
+        <div class="column_description">
+            {# This creates the descriptions of each of the columms #}
+
+            {% for column, description in column_description_dict.items() %}
+
+                <h3>{{ column }}</h3>
+                <p>{{ description }}</p>
+
+            {% endfor %}
+        </div>
+
+
+    </div>
+
+
+
+    <div id="data_comments_div_view_request"  class="half_size_div">
+            <label for="comments_data_request">Feedback comment of request: </label>
+            <textarea id="comments_data_request"  class="comments_data_request_class">{{comments}}</textarea>
+    </div>
+
+    <div id="sql_bottem_view_request"  class="half_size_div">
+        <label for="session_sql">SQL code:</label>
+        <textarea id="session_sql"  class="sql_text_area_class">{{sql_code}}</textarea>
+    </div>
+
+</div>
+
+<div id="bottem_div_send_retry_buttons">
+    <div class="bottem_div_components_table_view">
+        <div id="retry_button_div">
+            <form action="/data-analyst-view" method="GET">
+                <button type="submit" value="Reset" class="bottom_buttons">Terug</button>
+            </form>
+        </div>
+
+    </div>
+
+
+
+    <div class="bottem_div_components_table_view">
+        <form action="/data-analyst-view" method="POST" id="requestDataForm">
+            <input type="hidden" name="request_id" value="{{request_id}}">
+
+
+            <button type="submit" value="I have send the data" class="bottom_buttons" id="requestDataButton">
+                Data is geleverd
+            </button>
+        </form>
+    </div>
+
+</div>
+{% endblock %}
+
+

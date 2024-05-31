@@ -1,0 +1,9 @@
+De tabel 'delivery_preference' bevat informatie over hoe de klant zijn pakket bij voorkeur geleverd krijgt. In deze tabel staan alleen klanten die een account hebben aangemaakt.
+
+account_id_hashed: Een unieke waarde voor elke klant/account die geregistreerd is in het systeem. In dit tabel bevat deze kolom geen duplicaten, waardoor deze kolom de primaire sleutel van deze tabel is.
+
+deliverypreference: "Dit veld geeft de voorkeur van de klant aan voor de wijze van pakketlevering. De mogelijke waarden omvatten 'Originele afleverlocatie' (OriginalDeliveryLocation), 'Pakketkluis' (ParcelLocker), 'Openbare pakketkluis' (PublicParcelLocker), 'Winkellocatie' (RetailLocation), en 'Geen' (None). Als dit veld leeg is, betekent dit dat de klant geen voorkeur heeft opgegeven."
+
+datelastupdated: "Dit veld registreert de datum en tijd waarop de leveringsvoorkeur van de klant voor het laatst is bijgewerkt. Het formaat van de datum en tijd is bijvoorbeeld '29/11/2023 15:51:53'. Dit veld kan leeg zijn als de leveringsvoorkeur nog niet is bijgewerkt of als de recordinformatie niet beschikbaar is.
+
+datecreated: "Dit veld bevat de datum en tijd waarop de record in deze tabel oorspronkelijk is aangemaakt. Het gebruikt hetzelfde datum- en tijdformaat als 'datelastupdated', bijvoorbeeld '29/11/2023 15:51:53'. Dit veld kan leeg zijn als de leveringsvoorkeur nog niet is bijgewerkt of als de recordinformatie niet beschikbaar is.

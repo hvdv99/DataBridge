@@ -1,0 +1,282 @@
+body{
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+header{
+    background-color: #ffffff;
+    color: #2f3284;
+    padding: 10px 10px;
+    text-align: center;
+}
+#header_div{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 25px;
+    text-align: right;
+    background: #ffffff;
+    color: #2f3284;
+}
+#postnl_logo{
+    width: 70px;
+    height: 70px;
+    margin: 10px 0;
+}
+#title_UI{
+    width: 90%;
+    margin: 10px 0;
+    text-align: center;
+    color: #2f3284;
+}
+
+/* the class for the div that contains the form for the session */
+#question_div{
+    background-color: whitesmoke;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px auto;
+    padding: 10px;
+    width: 80%;
+}
+
+/* the div for each label and input box: for example: Subject and input field */
+.session_info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+/* the label and input box for each div */
+.session_info label, .session_info input{
+    display: inline-block;
+    margin-top: 12px;
+
+}
+
+
+.session_info input {
+  width: 60%;
+  margin: 0 20% 10px 0;
+  height: 2em;
+  font-size:16px;
+  text-align: left;
+
+}
+
+/* the class for the field where you have to put your question to vanna in the session */
+#session_question_field{
+    width: 60%;
+    margin: 0 20% 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 12em;
+    font-size:16px;
+
+}
+
+#submit_button_start_session{
+    border: 1px solid #ccc;
+    margin-left: 50%;
+    border-radius: 5px;
+    height: 2em;
+    font-size:2em;
+    cursor: pointer;
+}
+
+
+.session_info label {
+  width: 10%;
+  min-width: 55px;
+  text-align: right;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+table thead tr {
+    background-color: #e38f07;
+    color: #ffffff;
+    text-align: left;
+}
+
+.sql_text_area_class{
+    width: 250px;
+    height: 9em;
+    font-size:10px;
+}
+
+table th, table td {
+    padding: 12px 15px;
+}
+
+
+
+
+#bottem_div_send_retry_buttons{
+    display: flex;
+    width: 95%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 10px 10px 39px 33px;
+}
+
+
+
+
+#data_comments_div{
+    width: 75%
+
+}
+
+#text_div_feedback{
+    width: 25%;
+    font-size: 1.2em;
+    margin: -10px 0;
+    padding-left: 15px;
+    font-weight: bold;
+
+}
+
+#data_comments_div{
+    margin-left: 25px;
+}
+
+#data_comments_div > textarea{
+    margin: 10px 0;
+    width: 95%;
+    height: 8em;
+    font-size:10px;
+}
+
+#result_table_div {
+    width: 50%;
+    padding: 15px;
+    background: #fff;
+    overflow-x: auto ;
+}
+
+
+
+#table_descriptions_div {
+    width: 50%;
+    margin: 10px 0;
+    background: wheat;
+}
+
+.button {
+    margin: 5px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+#tableButtonContainer {
+    background: burlywood;
+    border: 5px solid #ccc;
+    padding: 2px;
+}
+
+#columnButtonContainer > button {
+    margin: 3px;
+    padding: 2px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+
+}
+
+
+.bottom_buttons{
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 2em;
+    font-size:40px;
+    cursor: pointer;
+}
+
+
+#requested_data_table_div{
+    width: 100%;
+    margin: 25px 25px 0 25px;
+    background: #fff;
+
+}
+
+
+
+#feedback_sql_div > div{
+
+    background: wheat;
+
+}
+
+.half_size_div > textarea {
+    margin: 10px 10px;
+    width: 95%;
+    height: 8em;
+    font-size:10px;
+}
+
+.half_size_div > label{
+    margin: 10px 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+
+}
+
+
+#flexbox_square_view_request{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px 10px 10px 10px;
+}
+
+#flexbox_square_view_request > .half_size_div{
+    width: 47.5%;
+    margin: 10px 0;
+    background: wheat;
+    padding: 5px;
+    border: 10px solid #fff;
+
+}
+
+#feedback_div{
+    width: 100%;
+    display: flex;
+    margin: 10px 0;
+    background: wheat;
+    padding: 5px;
+    border: 10px solid #fff;
+}
+
+a {
+    text-decoration: none;
+    color: #2f3284;
+}
+
+#error_message_start{
+    color: red;
+    margin-left: 20%;
+    margin-right:20%;
+}
+
+.view_request_link_button{
+    font-size: 1.5em;
+    font-weight:bold;
+}
+
+#submissionMessage{
+    color: green;
+
+}

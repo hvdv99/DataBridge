@@ -1,0 +1,31 @@
+{%extends 'base.html'%}
+{% block title %} PostNL Data Requests {% endblock %}
+{% block title_heading %} PostNL Database Requestor | Data Analyst view {% endblock %}
+{% block content %}
+
+
+<div id="requested_data_table_div">
+<table>
+    <tr>
+        <th>Question</th>
+        <th>Email</th>
+        <th>Subject</th>
+        <th>Date created</th>
+        <th>Date accepted or rejected</th>
+        <th>Delivered</th>
+    </tr>
+    {% for request in requested_data %}
+    <tr>
+        <td>{{request.question}}</td>
+        <td>{{request.email}}</td>
+        <td>{{request.subject}}</td>
+        <td>{{request.date_created}}</td>
+        <td>{{request.date_accepted_or_rejected}}</td>
+        <td>{{request.delivered_bool}}</td>
+        <td><button class="view_request_link_button"><a href="/view-request/{{request.id}}">Inzien</a></button></td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}
+

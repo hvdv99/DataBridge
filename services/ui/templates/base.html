@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>{%block title%} {%endblock%}</title>
+</head>
+
+<header>
+    <div id="header_div">
+        <img src="{{ url_for('static', filename='images/postnl-logo.png') }}" alt="PostNL logo" id="postnl_logo">
+    <label id = "title_UI"><h1>{%block title_heading%} PostNL DataBridge{%endblock%}</h1></label>
+    </div>
+    {% block header %}  {% endblock %}
+</header>
+<body>
+{%block content%}
+<!-- Content for start_session.html and vanna_table_view.html will be inserted here -->
+{%endblock%}
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
