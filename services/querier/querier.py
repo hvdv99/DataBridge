@@ -55,9 +55,10 @@ class SqlGenerator:
         :param sample_db_loc: the location of where your database is stored. The database can be created if you run
         db_init.py script.
         """
-        self.TRAINING_DATA_PATH = os.path.join("..", "..", 'services', 'querier', 'training-data')
 
-        chromadb_filepath = os.path.join(os.path.dirname(self.TRAINING_DATA_PATH), 'chroma-db-files')
+        self.TRAINING_DATA_PATH = os.path.join('querier', 'training-data')
+
+        chromadb_filepath = os.path.join(self.TRAINING_DATA_PATH, 'chroma-db-files')
         if not os.path.exists(chromadb_filepath):
             os.mkdir(chromadb_filepath)
 
@@ -107,8 +108,9 @@ class SqlGenerator:
         Vanna automatically generates an associating question to a sql query using a LLM
         :return: None
         """
-        sql_query_file_path = os.path.join(self.TRAINING_DATA_PATH, 'sql-queries')
-        query_files = [f for f in os.listdir(sql_query_file_path) if f.endswith('.train_on_sql')]
+        # sql_query_file_path = os.path.join(self.TRAINING_DATA_PATH, 'sql-queries')
+        sql_query_file_path = 'sql-queries'
+        query_files = [f for f in os.listdir(sql_query_file_path)]
         for query in query_files:
             with open(os.path.join(sql_query_file_path, query), 'r') as q:
                 self.vanna.train(sql=q.read())
@@ -120,8 +122,8 @@ class SqlGenerator:
         Trains the vanna remote context model on the documentation files listed in training-data/documentation
         :return: None
         """
-        documentation_files =\
-            [f for f in os.listdir(os.path.join(self.TRAINING_DATA_PATH, 'documentation')) if f.endswith('.txt')]
+
+        documentation_files = [f for f in os.listdir(os.path.join(self.TRAINING_DATA_PATH, 'documentation')) if f.endswith('.txt')]
         for doc_file in documentation_files:
             with open(os.path.join(self.TRAINING_DATA_PATH, 'documentation', doc_file), 'r') as d:
                 file_data = d.read().split('\n\n')  # creating chunks for each line
@@ -213,3 +215,9 @@ class SqlGenerator:
                     table_description = "Retrieved from table: " + table
                     column_descriptions_dict[table_description] = value["table"]
         return column_descriptions_dict
+
+
+if __name__ == "__main__":
+    gn = SqlGenerator('/Users/huubvandevoort/Desktop/JADS - Current/DCiA/6. Project/data-consultancy-post/data/PostNL_SQLite.sqlite')
+    gn.remove_all_training_data()
+    gn.train_model(train_on_sql=False)

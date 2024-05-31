@@ -1,103 +1,40 @@
-# data-consultancy-post
+# Data Bridge
 
-This repository contains the source code for the course 'Data Consultancy in Action' project we did for the at JADS
+## Welcome
+This repository hosts the source code for the project we did for PostNL. We created an application that translates data requests from natural language to a SQL Query. 
 
-## Getting Started
+## Running the application
+In order to run the application we set up a Dockerfile. The image requires an OPEN AI API key. Run the following commands to test the application locally:
 
-In the next section some explanation will follow on how work on this repository on your own machine.
+**Building the image**
 
-### 1. Cloning the repository
+`docker build -t DataBridge .
+`
 
-1. Open your command prompt or your terminal switch to the directory where you want your code to be.
-2. Clone the repository with the following command: `git clone https://github.com/hvdv99/data-consultancy-post.git`
-3. Now open the new directory with Pycharm
+**Running the image**
 
-### 2. Creating a virtual environment
+`docker run -d -p 8080:5000 -e OPENAI_API_KEY=<your-key> DataBridge
+`
 
-A Python virtual environment is a self-contained environment that includes a specific version of Python and a set of
-installed packages, isolated from the system-wide Python installation.
+## Repository Structure
+In this section you will find a high level explanation of the contents of this repository.
 
-Virtual environments allow you to create separate Python environments for different projects, each with its own Python
-version and installed packages. This can be useful when you need to use different versions of packages or Python itself
-for different projects, or when you want to avoid conflicts between packages that have conflicting dependencies.
+```txt
+.
+├── Dockerfile
+├── README.MD
+├── data
+├── requirements.txt
+├── services
+│   ├── querier
+│   └── ui
+└── test
+```
 
-1. First clone the repository into a specific directory: `git clone https://github.com/hvdv99/data-consultancy-post.git`
-2. Enter project directory: `cd data-consultancy-post`
-3. Create a virtual environment: `python -m venv venv`
-4. Activate virtual environment: `windows: venv\Scripts\activate` or `mac: source venv/bin/activate`
-5. Install packages from requirements with pip: `pip install -r requirements.txt`
+### Description
 
-Once the dependencies grow, add them to the `requirements.txt` file.
-
-### 3. Working with the data
-
-1. Then add the csv files to the data directory on your machine.
-2. Run the file: `data/db_init/db_init.py` to create the database on your computer.
-
-#### Gitignore
-
-In the Gitignore there are file patterns listed which match to directories or to files. Those matches are not pushed to
-Github. If you have any files that do not belong to github (e.g. big data files or your personal test files, list them
-in the Gitignore). For example: Different IDE's use files we do not want in our repo. Check your directory for hidden
-files and add those to the `.gitignore` file.
-
-### 4. Setting up API-keys
-
-This directory works with external services that require API keys. We consider it a best practice to include all
-non-confidential constant variables in the `constants.py` file and all confidential constants
-(API-keys) in the `personal_constants.py` file.
-
-#### Personal constants
-
-You have to create your own personal constants file `config/personal_constants.py`. This is listed in the `.gitignore`
-file, thus it is not pushed to Github. Make sure to include your own API-key and your model name.
-
-#### Constants
-
-In the directory `config` there are two files: `constants.py` and `personal_constants.py`.  `personal_constants.py` is
-included in`.gitignore` thus your confidential constants
-are never pushed to Github. Make sure to define all constants in UPPERCASE. Whenever you need a confidential constant,
-first import the personal constant in `constants.py`, then import `constants.py` in your script.
-
-### 5. Branching strategy
-
-Here it is explained how you should work with branches. The main point is that nobody is allowed to push directly to the
-`main` brach. So, for each task (feature), we will create a new branch. After the feature is done, you can create a pull
-request (must be created on through graphical user interface of Github) which has to be reviewed by the Product Owner
-and one other developer (make sure to assign them in your pull request). After approval, your feature can be merged with
-the main branch.
-
-Here are some helpful commands to implement this strategy:
-
-#### Creating your own branch
-
-- `git branch` - shows all existing branches
-- `git checkout` - allows you to switch to a different branch.
-- `git checkout -b <your_name/branch_name>` - creates a new branch from the currently checked out branch & switches to it.
-  Without `-b` it only switches to the existing branch. GitHub uses a tree based structure, so please consider from
-  which branch you are creating a new one. If you are not building on top of a feature build by someone else, it is okay 
-to make a new branch from the main branch.
-
-#### Working on branches
-
-- Different people can push to a branch (e.g. making changes). If you are working on that same branch run: `git pull`
-  which pulls the latest changes to your local machine.
-
-#### Commiting to a branch
-First make sure you are working on the correct branch. You can check this by running: `git branch`. The branch you
-are working on will be colored green, otherwise, see above.
-- `git add .` - adds all files to the staging area
-- `git status` - shows the files that are in the staging area. This is very helpful to check if you did not make any
-  mistakes while pushing.
-- `git commit -m "Your message"` - commits the files in the staging area to the branch you are working on.
-- `git push` - pushes staged files to the branch you are working on.
-
-#### Creating a Pull Request & Merging branches
-
-- Once the feature branch is complete, you first have to make sure it is up to date with the remote repo on Github. To
-  assure this, run in the CLI: `git pull`.
-- Then you can create a pull request on the Github website.
-- Important: select two developers to review your code.
-- The reviewers will check your code and give you feedback by adding comments to your code.
-- You can now resolve the comments by making new commits to the branch. When you are done, request the reviewers to
-check your changes.
+- **data**: In this directory all data and the related scripts are kept.
+- **querier**: in this directory the source code of the backend is kept.
+- **ui**: in this directory, you will find the source code of the front-end application
+- **Dockerfile**: the blueprint for building a docker image that hosts the application.
+- **test**: in this directory all scripts, results and data is kept related to testing the application.

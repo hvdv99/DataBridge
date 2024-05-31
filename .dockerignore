@@ -1,0 +1,9 @@
+.venv
+test/
+data/db_init
+data/eda
+data/*.csv
+data/PostNL_Requested_Data.sqlite
+README.md
+.gitignore
+services/config
